@@ -34,3 +34,16 @@ def defringe(im,erode=2):
     rgb=a[:,:,:3][idx[0],idx[1]]; out=a.copy(); out[:,:,:3]=np.where(core[:,:,None],a[:,:,:3],rgb)
     soft=ndi.gaussian_filter(ndi.binary_erosion(a[:,:,3]>90,iterations=1).astype(float),0.7)
     out[:,:,3]=np.minimum(a[:,:,3],(soft*255).astype(np.uint8)); return Image.fromarray(out)
+
+def rm_bg_grad(im,T=7.0,blur=1.0,outline=True):
+    """漸層底也能去：低梯度（平滑）且連到邊界的區域＝背景；角色的描邊會擋住擴散。"""
+    im=im.convert('RGBA'); a=np.array(im); rgb=ndi.gaussian_filter(a[:,:,:3].astype(float),(blur,blur,0))
+    gx=ndi.sobel(rgb,axis=1); gy=ndi.sobel(rgb,axis=0); g=np.sqrt(gx**2+gy**2).max(2)/4
+    low=g<T; low=ndi.binary_opening(low,iterations=1); lab,n=ndi.label(low); h,w=low.shape
+    bl=set(np.unique(np.concatenate([lab[0],lab[-1],lab[:,0],lab[:,-1]])))-{0}
+    bg=np.isin(lab,list(bl))
+    # 與邊界底色差距太大的平滑區（例如角色的大片衣服）不算背景
+    edge=np.concatenate([a[0,:,:3],a[-1,:,:3],a[:,0,:3],a[:,-1,:3]]).astype(float); med=np.median(edge,axis=0)
+    far=np.abs(a[:,:,:3].astype(float)-med).sum(2)>150; bg&=~far
+    fg=~bg; fg=ndi.binary_opening(fg,iterations=1)
+    al=ndi.gaussian_filter(fg.astype(float),0.7); out=a.copy(); out[:,:,3]=(np.minimum(al*1.15,1)*255).astype(np.uint8); return Image.fromarray(out)

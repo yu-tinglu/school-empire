@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image
 from scipy import ndimage as ndi
 sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
-from segment import rm_bg,defringe
+from segment import rm_bg,defringe,rm_bg_grad
 ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 S=lambda n:Image.open(f'{ROOT}/assets/source/{n}.png').convert('RGBA')
 CREAM=(246,238,220,255)
@@ -21,7 +21,7 @@ SETS=[ # (來源, 行y0, 行高, 起x, 格寬, 格數, 性別字串, 角色 s/t,
 ]
 def isolate(cell):
     """只留下格子正中央的那一個人，鄰居的碎片與文字標籤全部去掉，放在奶油色底上。"""
-    cell=rm_bg(cell.convert('RGBA'),tol=34,grow=1.2); a=np.array(cell); m=a[:,:,3]>40; H,W=m.shape
+    cell=rm_bg_grad(cell.convert('RGBA'),T=16,blur=1.8); a=np.array(cell); m=a[:,:,3]>40; H,W=m.shape
     er=ndi.binary_erosion(m,iterations=4); lab,n=ndi.label(er); best=None;bs=-1
     for i in range(1,n+1):
         ys,xs=np.where((lab==i)&m)
