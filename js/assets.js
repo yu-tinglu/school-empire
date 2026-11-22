@@ -20,6 +20,8 @@ const cs=ART.chibiSheet; ART.chibiSheet=function(L){ if(A.man){ const variant=Ma
 // 人物頭像：用手繪頭像取代程式小人頭像（依外觀雜湊固定選一張，同一人永遠同一張）
 A.pcount=(role,sx)=>{ if(!A.man) return 0; let n=0; while(A.man.assets[`portrait:${role}:${sx}:${n}`]) n++; return n; };
 const pt=ART.portrait; ART.portrait=function(L,size){ if(A.man&&L){ const role=L.role==='student'?'s':'t', sx=L.sx?1:0, n=A.pcount(role,sx); if(n){ const j=Math.floor(hs(L.hair?L.hair.length:1,L.style||0,(L.h||1)*1000+(L.acc||0)*7+(L.face||0)*13+(L.skin?L.skin.length:0))*n); const r=A.get(`portrait:${role}:${sx}:${j}`); if(r){ size=size||96; const cache=ART._cs||(ART._cs=new Map()); const key=`apt|${role}${sx}${j}|${size}`; if(cache.has(key)) return cache.get(key); const cv=document.createElement('canvas'); cv.width=cv.height=size; const c=cv.getContext('2d'); c.imageSmoothingQuality='high'; c.drawImage(r.cv,0,0,size,size); const u=cv.toDataURL('image/png'); cache.set(key,u); return u; } } } return pt.apply(this,arguments); };
-const initP=A.init; A.init=()=>initP().then(()=>{ if(A.man) for(const k in A.man.assets) if(k.startsWith('portrait:')) A.get(k); });
+const initP=A.init; A.init=()=>initP().then(()=>{ if(A.man) for(const k in A.man.assets) if(k.startsWith('portrait:')||k.startsWith('event:')) A.get(k); });
+// 事件插圖：依事件模板挑選手繪 CG，取代程式畫的小插圖
+const se2=SE.UI&&SE.UI.showEvent; if(se2){ SE.UI.showEvent=function(id){ se2.apply(this,arguments); try{ const g=SE.UI.g; const e=g.events.pending.find(x=>x.id===id); const box=document.querySelector('#modal .box'); const nm=e&&A.man&&A.man.event_map&&A.man.event_map[e.tpl]; const r=nm&&A.get('event:'+nm); if(r&&box){ let im=box.querySelector('img.vig'); if(!im){ im=document.createElement('img'); im.className='vig'; im.alt=''; box.insertBefore(im,box.firstChild); } if(!r.url) r.url=r.cv.toDataURL('image/jpeg',.92); im.src=r.url; im.style.objectFit='cover'; im.classList.add('cg'); } }catch(_){} }; }
 A.init();
 })(typeof window!=='undefined'?window:globalThis);
