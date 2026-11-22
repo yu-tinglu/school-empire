@@ -1,0 +1,40 @@
+// 美術示範場景：只使用 assets/manifest.json 裡的圖片檔渲染（地面磚、教學樓、三種樹、花圃、人物精靈圖）。
+// 可獨立運行（demo.html）或嵌入遊戲（美術示範畫面）。不含任何程式繪圖。
+(function(root){
+'use strict';
+const SE=root.SE=root.SE||{}; const D=SE.Demo={};
+D.mount=(host)=>{ host.innerHTML=`<div class="dm"><canvas class="dmc"></canvas><div class="dmbar"><span>季節</span><select class="dms"><option value="spring">春</option><option value="summer" selected>夏</option><option value="autumn">秋</option><option value="winter">冬</option></select><span>教學樓等級</span><select class="dml"><option>1</option><option>2</option><option>3</option></select><span>狀態</span><select class="dmc2"><option value="0">良好</option><option value="1">破舊</option><option value="2">荒廢</option></select><button class="dmz" data-z="1">＋</button><button class="dmz" data-z="-1">－</button></div><div class="dminfo">點教學樓、樹或花圃看素材資訊；拖曳平移、滾輪／雙指縮放。</div><div class="dmst"></div></div>`;
+  const cv=host.querySelector('.dmc'),info=host.querySelector('.dminfo'),st=host.querySelector('.dmst'); const c=cv.getContext('2d'); const S={cam:{x:16,y:100,z:1.0},season:'summer',lv:1,cond:0,man:null,img:new Map(),t:0}; const base=host.dataset.base||'assets/';
+  const hs=(a,b,k)=>{ let h=(a*374761393+b*668265263+(k|0)*2147483647)|0; h=(h^(h>>>13))*1274126177|0; return ((h^(h>>>16))>>>0)/4294967296; };
+  const get=k=>{ if(!S.man) return null; const e=S.man.assets[k]; if(!e) return null; let r=S.img.get(k); if(r) return r.ok?r:null; r={ok:false,e,key:k}; S.img.set(k,r); const im=new Image(); im.onload=()=>{ r.im=im; r.ok=true; }; im.src=base+e.src; return null; };
+  fetch(base+'manifest.json').then(r=>r.json()).then(m=>{ S.man=m; });
+  // 場景資料（格子座標）：7x6 草地；步道沿 y=4；教學樓 3x2；樹與花圃
+  const W=8,H=7; const road=new Set(); for(let x=0;x<W;x++) road.add(x+',5'); for(let y=3;y<H;y++) road.add('3,'+y);
+  const objs=[{k:'bld',x:2,y:1,w:3,h:2},{k:'tree',kind:'round',x:6,y:1,v:0},{k:'tree',kind:'cone',x:0,y:2,v:1},{k:'tree',kind:'blossom',x:6,y:4,v:2},{k:'tree',kind:'round',x:0,y:5,v:1},{k:'dec',name:'flowers',x:5,y:3},{k:'dec',name:'flowers',x:1,y:4},{k:'dec',name:'bench',x:4,y:4}];
+  const walkers=[{path:[[0,5],[7,5]],t:0,sp:.9,role:'student',sx:0,v:0},{path:[[7,5],[3,5],[3,3]],t:2,sp:.7,role:'student',sx:1,v:1},{path:[[3,6],[3,3]],t:1,sp:.6,role:'teacher',sx:0,v:0}];
+  const iso=(x,y)=>[(x-y)*32,(x+y)*16];
+  const toScr=(X,Y)=>[(X-S.cam.x)*S.cam.z+cv.clientWidth/2,(Y-S.cam.y)*S.cam.z+cv.clientHeight/2];
+  const frames=['idle','w1','w2','bidle','bw1','bw2'];
+  function draw(ts){ requestAnimationFrame(draw); if(!cv.isConnected) return; S.t=ts/1000; const dpr=Math.min(devicePixelRatio||1,2),w=cv.clientWidth,h=cv.clientHeight; if(cv.width!==w*dpr||cv.height!==h*dpr){ cv.width=w*dpr; cv.height=h*dpr; } c.setTransform(dpr,0,0,dpr,0,0); const g=c.createLinearGradient(0,0,0,h); g.addColorStop(0,'#8fc4ea'); g.addColorStop(1,'#e8f3f6'); c.fillStyle=g; c.fillRect(0,0,w,h);
+    if(!S.man){ c.fillStyle='#444'; c.fillText('載入素材…',20,30); return; }
+    c.save(); c.translate(w/2-S.cam.x*S.cam.z,h/2-S.cam.y*S.cam.z); c.scale(S.cam.z,S.cam.z); let miss=0;
+    for(let y=0;y<H;y++) for(let x=0;x<W;x++){ const isR=road.has(x+','+y); const r=isR?get('ground:path:any:0'):(get(`ground:grass:${S.season}:${Math.floor(hs(x,y,5)*3)}`)); const [X,Y]=iso(x,y); if(r) c.drawImage(r.im,X-32-.5,Y-.5,65,33); else miss++; }
+    const list=[]; for(const o of objs){ if(o.k==='bld') list.push({o,d:o.x+o.w+o.y+o.h}); else list.push({o,d:o.x+o.y+1}); } for(const w of walkers){ const L=w.path; let seg=0,len=0; const lens=[]; for(let i=0;i<L.length-1;i++){ const l=Math.hypot(L[i+1][0]-L[i][0],L[i+1][1]-L[i][1]); lens.push(l); len+=l; } let u=(S.t*w.sp+w.t)%(len*2); const back=u>len; if(back) u=len*2-u; let i=0; while(i<lens.length-1&&u>lens[i]){ u-=lens[i]; i++; } const a=L[back?L.length-1-i:i],b=L[back?L.length-2-i:i+1]; const f=Math.min(1,u/lens[i]); w.x=a[0]+(b[0]-a[0])*f+.5; w.y=a[1]+(b[1]-a[1])*f+.5; w.dx=b[0]-a[0]; w.dy=b[1]-a[1]; list.push({o:w,d:w.x+w.y+.01,walker:1}); }
+    list.sort((p,q)=>p.d-q.d); S.hit=[];
+    for(const it of list){ const o=it.o; if(it.walker){ const r=get(`char:${o.role}:${o.sx}:${o.v}`); if(!r) {miss++; continue;} const e=r.e; const back2=o.dy<0||o.dx<0&&Math.abs(o.dx)>Math.abs(o.dy); const fi=(back2?3:0)+1+((S.t*6|0)&1); const [X,Y]=iso(o.x,o.y); const sc=.66; c.save(); if(o.dx<0){ c.translate(X,0); c.scale(-1,1); c.translate(-X,0); } c.drawImage(r.im,fi*e.fw,0,e.fw,e.fh,X-e.ax*sc,Y-e.ay*sc,e.fw*sc,e.fh*sc); c.restore(); continue; }
+      if(o.k==='bld'){ const r=get(`bld:classroom:${S.lv}:any:${S.cond}`)||get(`bld:classroom:${S.lv}:any:0`)||get('bld:classroom:1:any:0'); if(!r){ miss++; continue; } const [X,Y]=iso(o.x,o.y); c.drawImage(r.im,X-r.e.ox,Y-r.e.oy); o.r=r; o.box=[X-r.e.ox,Y-r.e.oy,r.im.width,r.im.height]; S.hit.push(o); }
+      else if(o.k==='tree'){ const r=get(`tree:${o.kind}:${S.season}:${o.v}`); if(!r){ miss++; continue; } const [X,Y]=iso(o.x,o.y); c.drawImage(r.im,X-r.e.ox,Y+16-r.e.oy); o.r=r; o.box=[X-r.e.ox,Y+16-r.e.oy,r.im.width,r.im.height]; S.hit.push(o); }
+      else { const r=get(`decor:${o.name}:any`); if(!r){ miss++; continue; } const [X,Y]=iso(o.x,o.y); c.drawImage(r.im,X-r.e.ox,Y-r.e.oy); o.r=r; o.box=[X-r.e.ox,Y-r.e.oy,r.im.width,r.im.height]; S.hit.push(o); } }
+    c.restore(); const sm={}; for(const k in S.man.assets){ const s=S.man.assets[k].status; sm[s]=(sm[s]||0)+1; } st.textContent=`素材：${Object.entries(sm).map(([k,v])=>({final:'正式',placeholder:'佔位'}[k]||k)+' '+v).join('／')}　（本場景全部由圖片檔渲染；目前皆為佔位圖）`; }
+  requestAnimationFrame(draw);
+  // 輸入
+  let drag=null; const ptr=new Map(); let pinch=null,moved=0; const P=e=>{ const r=cv.getBoundingClientRect(); return [e.clientX-r.left,e.clientY-r.top]; }; const clampZ=z=>Math.max(.5,Math.min(3,z));
+  cv.style.touchAction='none'; cv.onpointerdown=e=>{ cv.setPointerCapture(e.pointerId); ptr.set(e.pointerId,P(e)); moved=0; if(ptr.size===2){ const [a,b]=[...ptr.values()]; pinch={d:Math.hypot(a[0]-b[0],a[1]-b[1]),z:S.cam.z}; drag=null; } else drag={p:P(e),x:S.cam.x,y:S.cam.y}; };
+  cv.onpointermove=e=>{ if(!ptr.has(e.pointerId)) return; ptr.set(e.pointerId,P(e)); if(pinch&&ptr.size>=2){ const [a,b]=[...ptr.values()]; S.cam.z=clampZ(pinch.z*Math.hypot(a[0]-b[0],a[1]-b[1])/pinch.d); moved=9; return; } if(drag){ const p=P(e); const dx=p[0]-drag.p[0],dy=p[1]-drag.p[1]; moved=Math.max(moved,Math.hypot(dx,dy)); if(moved>5){ S.cam.x=drag.x-dx/S.cam.z; S.cam.y=drag.y-dy/S.cam.z; } } };
+  cv.onpointerup=e=>{ const p=P(e); ptr.delete(e.pointerId); if(ptr.size<2) pinch=null; if(ptr.size===0&&moved<=5){ const X=(p[0]-cv.clientWidth/2)/S.cam.z+S.cam.x,Y=(p[1]-cv.clientHeight/2)/S.cam.z+S.cam.y; let found=null; for(let i=S.hit.length-1;i>=0&&!found;i--){ const o=S.hit[i],b=o.box,px=Math.floor(X-b[0]),py=Math.floor(Y-b[1]); if(px<0||py<0||px>=b[2]||py>=b[3]) continue; try{ const t=document.createElement('canvas'); t.width=1; t.height=1; const tc=t.getContext('2d'); tc.drawImage(o.r.im,px,py,1,1,0,0,1,1); if(tc.getImageData(0,0,1,1).data[3]>24) found=o; }catch(_){ found=o; } } if(found){ const e=found.r.e; info.innerHTML=`<b>${found.k==='bld'?'教學樓 Lv'+S.lv:found.k==='tree'?'樹木：'+found.kind:'裝飾：'+found.name}</b>　檔案：${found.r.key}　尺寸 ${found.r.im.width}×${found.r.im.height}　錨點 (${e.ox},${e.oy})　狀態：<b>${e.status==='final'?'正式':'佔位（非手繪）'}</b>`; } else info.textContent='點教學樓、樹或花圃看素材資訊。'; } if(ptr.size===0) drag=null; };
+  cv.onwheel=e=>{ e.preventDefault(); S.cam.z=clampZ(S.cam.z*(e.deltaY<0?1.1:1/1.1)); };
+  host.querySelector('.dms').onchange=e=>S.season=e.target.value; host.querySelector('.dml').onchange=e=>S.lv=+e.target.value; host.querySelector('.dmc2').onchange=e=>S.cond=+e.target.value;
+  host.querySelectorAll('.dmz').forEach(b=>b.onclick=()=>S.cam.z=clampZ(S.cam.z*(b.dataset.z>0?1.2:1/1.2)));
+  return S; };
+if(SE.UI&&SE.UI.screens){ SE.UI.screens.artdemo=()=>`<div class="card"><h3>美術示範場景</h3><p class="sm mut">只用 assets/ 裡的圖片檔渲染。目前所有圖片都是「佔位」（非手繪）。</p><div id="demohost" data-base="assets/"></div></div>`; SE.UI.after.artdemo=()=>D.mount(document.getElementById('demohost')); }
+})(typeof window!=='undefined'?window:globalThis);

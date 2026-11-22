@@ -1,0 +1,56 @@
+(function(root){
+'use strict';
+const SE=root.SE, {E,S,L,P,G,W,D,U,R,Save,Ev,Rv,AI,CAL}=SE, UI=SE.UI, esc=UI.esc, $m=UI.$m, $n=UI.$n, SC=UI.screens, kv=UI.kv, card=UI.card;
+/* ================= 世界與政策 ================= */
+SC.world=(g,s)=>{ const w=g.world, r=g.regionRule; const bh=Object.entries(w.birthHist||{}).sort((a,b)=>a[0]-b[0]).slice(-40);
+  const free=(w.pol.free||[]).map(t=>D.TYPES[t].n).join('、')||'無';
+  return `<div class="grid">${card('時代與經濟',kv('現在',g.y+' 年')+kv('物價水準',w.M.toFixed(1)+'×')+kv('科技水準',w.tech.toFixed(0)+'（決定可建設施）')+kv('人口指數',w.popIdx.toFixed(2))+kv('平均所得',w.income.toFixed(2))+kv('失業率',w.unemp.toFixed(1)+'%')+kv('傳統觀念',(w.trad*100).toFixed(0)+'%')+kv('國際化',(w.intl*100).toFixed(0)+'%')+kv('平均壽命／退休年齡',w.life.toFixed(0)+' / '+w.retire.toFixed(0))+kv('景氣循環',(w.cyc>=0?'+':'')+w.cyc.toFixed(2))+(g.y>2030?'<div class="note">2030 年之後為虛構未來，事件與科技為架空設定。</div>':''))}
+  ${card('地區規則：'+esc(r.n),`<p class="sm">${esc(r.d||'')}</p>${kv('補助方式',{cap:'依人頭',lump:'整筆補助',perf:'績效補助'}[r.subM]||r.subM)}${kv('學費管制',isFinite(W.tuitionCap(g,s.type))?'上限 '+$n(W.tuitionCap(g,s.type)):'不設上限')}${kv('免學費學制',free)}${kv('每班人數上限倍率',w.pol.classMax.toFixed(2))}${kv('教育管制強度',w.pol.strict.toFixed(2))}${kv('私校比例',(r.priv*100).toFixed(0)+'%')}${kv('學校稅負',r.tax>0?(r.tax*100).toFixed(1)+'%':'免稅')}${kv('捐款文化',r.donate.toFixed(1))}`)}</div>
+  ${card('目前社會事件',(w.act||[]).length?w.act.map(a=>`<div class="note"><b>${esc(a.name)}</b>（至 ${a.until} 年）<div class="sm">${esc(a.txt)}</div></div>`).join(''):'<div class="sm mut">目前沒有重大社會事件。</div>')}
+  ${card('少子化／出生人口',UI.line(bh.map(b=>b[0]),[{n:'出生人口（千）',v:bh.map(b=>+b[1])}],{min:0}))}
+  ${card('政策演變',UI.table([['年'],['政策／改革']],(w.polLog||[]).slice().reverse().map(p=>({c:[p.y,esc(p.t)]})),{empty:'尚無重大政策變動'}))}
+  ${card('世界新聞',UI.table([['年'],['消息']],(w.news||[]).slice(0,12).map(n=>({c:[n.y||'',esc(n.t||n)]})),{empty:'無'}))}`; };
+/* ================= 校友 ================= */
+SC.alumni=(g,s)=>{ const al=g.alumni; const q=(UI.sub.aq||'').trim(); const nt=al.filter(a=>a.nt||a.fame>0).sort((a,b)=>b.fame-a.fame);
+  let l=nt.slice(0,40); if(q) l=al.filter(a=>a.nm.includes(q)).slice(0,40); const don=s.led.years.reduce((a,y)=>a+(-(y.pl.rDonation||0)),0)-(s.led.bal.rDonation||0);
+  const kids=al.filter(a=>a.kids&&a.kids.length).length, mar=al.filter(a=>a.mar).length; const jobs={}; al.forEach(a=>{ if(a.jb>=0){ const j=D.JOBS[a.jb]; jobs[j]=(jobs[j]||0)+1; } });
+  return `<div class="grid g3">${[['校友（有詳細檔案）',al.length],['已婚',mar],['有子女',kids],['知名校友',(g.hall||[]).length+nt.length],['累計校友捐款',$m(don)],['返校申請（校友子女）',s.admit.legacy||0]].map(a=>`<div class="card" style="margin:0"><div class="mut sm">${a[0]}</div><b style="font-size:1.05rem;color:var(--ink)">${a[1]}</b></div>`).join('')}</div><div style="height:10px"></div>
+  <div class="grid">${card('職業分布',UI.bars(Object.entries(jobs).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([n,v])=>({n,v})),{fmt:v=>v}))}
+  ${card('跨世代',`<p class="sm">校友會結婚、生子；子女到了入學年齡，會優先申請父母母校（需開啟「校友子女優先」）。校友也可能回校任教、捐款或擔任校友會幹部，帶來聲望與捐款。</p>${kv('校友總量上限',P.ALUM_CAP)}${kv('已壓縮的歷史校友（統計用）',Object.values(g.legacyBank||{}).reduce((a,b)=>a+(b.n||0),0))}`)}</div>
+  ${card(q?'搜尋結果':'知名校友',`<div class="row"><input id="aq" value="${esc(q)}" placeholder="搜尋校友姓名" style="flex:1"><button class="btn sm" data-act="aSearch">搜尋</button></div>`+UI.table([['姓名'],['畢業年','n'],['學校'],['職業'],['聲望','n'],['']],l.map(a=>({cls:'clk',attr:`data-act="alum" data-id="${a.id}"`,c:[esc(a.nm)+(a.dead?' †':''),a.gy,esc(a.sn||''),a.jb>=0?D.JOBS[a.jb]:'—',a.fame||0,a.kids&&a.kids.length?'子女 '+a.kids.length:'']})),{empty:'目前沒有符合的校友'}))}
+  ${(g.hall||[]).length?card('名人堂',UI.table([['姓名'],['母校'],['畢業','n'],['職業'],['聲望','n']],g.hall.slice().sort((a,b)=>b.fame-a.fame).slice(0,20).map(h=>({c:[esc(h.nm),esc(h.sn),h.gy,h.job,h.fame]})))):''}`; };
+UI.act.aSearch=()=>{ UI.sub.aq=UI.$('#aq').value; UI.render(); };
+UI.act.alum=d=>{ const g=UI.g; const a=g.alumni.find(x=>x.id===+d.id); if(!a) return; UI.modal(`<h3>${esc(a.nm)}${a.dead?' †':''}</h3>${kv('母校',esc(a.sn||''))}${kv('畢業年',a.gy)}${kv('職業',a.jb>=0?D.JOBS[a.jb]:'—')}${kv('事業／生涯成就',a.cr)}${kv('財富',a.wl)}${kv('婚姻',a.mar?'已婚':'單身')}${kv('子女',(a.kids||[]).length)}${kv('捐款意願',a.dn)}<b>人生紀事</b><div class="sm" style="max-height:200px;overflow:auto">${(a.lg||[]).slice().reverse().map(l=>`<div>${l[0]}年・${esc(l[2])}</div>`).join('')||'<span class="mut">無紀錄</span>'}</div><button class="btn ghost sm" data-act="closeModal">關閉</button>`); };
+/* ================= 校史年鑑 ================= */
+SC.history=(g,s)=>{ const tab=UI.tab('his','tl'); let body='';
+  if(tab==='tl'){ const maj=UI.sub.hmaj!==false; const l=g.hist.filter(h=>(!maj||h.m)&&(!h.sid||h.sid===s.id||UI.sub.hall)).slice(-120).reverse(); body=card('大事記',`<label class="sm"><input type="checkbox" data-chg="hmaj" ${maj?'checked':''}> 只看重大事件</label> <label class="sm"><input type="checkbox" data-chg="hall" ${UI.sub.hall?'checked':''}> 含集團其他學校</label>`+UI.table([['時間'],['學校'],['事件']],l.map(h=>({c:[CAL.label(h.y,h.w).replace(/（.*/,''),esc(h.sn||'集團'),esc(h.t)]})),{empty:'沒有紀錄'})); }
+  else if(tab==='yb'){ body=card('年鑑（每年摘要）',UI.table([['年'],['學生','n'],['教職員','n'],['營收','n'],['損益','n'],['聲望','n'],['排名','n'],['品質','n'],['理念']],s.hist.yb.slice().reverse().map(y=>({c:[y.y,y.enr,y.staff,$m(y.rev),`<span class="${UI.sg(y.ni)}">${$m(y.ni)}</span>`,y.ov.toFixed(0),y.rank,y.q,D.PHIL[y.phil]?D.PHIL[y.phil].n:'']})))); }
+  else if(tab==='gr'){ body=card('歷屆畢業生',UI.table([['屆'],['人數','n'],['平均能力','n'],['直升','n'],['名校升學','n']],s.hist.grads.slice().reverse().map(y=>({c:[y.y,y.n,y.avg,y.direct||0,y.tier||0]}))))+card('歷屆招生',UI.table([['年'],['申請','n'],['錄取','n'],['報到','n']],(s.hist.adm||[]).slice().reverse().map(a=>({c:[a.y,a.a,a.o,a.e]})))); }
+  else { body=card('歷任校長',UI.table([['姓名'],['任期']],[...s.hist.principals.map(p=>({c:[esc(p.n),p.y0+'–'+p.y1]})),...(s.principalId?[{c:[esc((s.staff.find(x=>x.id===s.principalId)||{}).nm||''),'現任']}]:[])]))+card('集團發展史',UI.table([['學校'],['學制'],['期間'],['原因'],['高峰學生','n']],g.past.slice().reverse().map(p=>({c:[esc(p.n),D.TYPES[p.type].n,p.y0+'–'+p.y1,esc(p.why),p.peak]})),{empty:'目前沒有停辦或合併的學校'})); }
+  return UI.tabs('his',[['tl','大事記'],['yb','年鑑'],['gr','歷屆'],['pr','校長與集團']],tab)+body; };
+UI.chg.hmaj=v=>{ UI.sub.hmaj=v; UI.render(); }; UI.chg.hall=v=>{ UI.sub.hall=v; UI.render(); };
+/* ================= 統計圖表 ================= */
+SC.stats=(g,s)=>{ const y=g.stats.yearly; const lab=y.map(a=>a.y); const ms=s.led.months.slice(-36); const yb=s.hist.yb;
+  return `${card('在校學生與教職員（集團）',UI.line(lab,[{n:'學生',v:y.map(a=>a.stu)},{n:'教職員',v:y.map(a=>a.staff),c:'#c9a24b'}],{min:0}))}
+  ${card('集團現金與資產',UI.line(lab,[{n:'現金',v:y.map(a=>a.cash)},{n:'資產',v:y.map(a=>a.assets),c:'#c9a24b'}]))}
+  ${card('年度損益',UI.cols(lab,[{n:'損益',v:y.map(a=>a.ni)}]))}
+  ${card('綜合聲望與品牌',UI.line(lab,[{n:'聲望',v:y.map(a=>a.ov)},{n:'品牌力',v:y.map(a=>a.brand),c:'#a8442f'}],{min:0,max:100}))}
+  ${card('本校：排名與學生（年鑑）',UI.line(yb.map(a=>a.y),[{n:'學生',v:yb.map(a=>a.enr)}],{min:0})+UI.line(yb.map(a=>a.y),[{n:'排名（越低越好）',v:yb.map(a=>a.rank),c:'#a8442f'}],{min:0,fmt:v=>v.toFixed(0),h:130}))}
+  ${card('近36個月本校損益',UI.cols(ms.map(m=>m.m),[{n:'月損益',v:ms.map(m=>-Object.entries(m.pl).reduce((a,[k,v])=>a+v,0))}]))}
+  ${card('十維聲望',UI.bars(Object.keys(UI.DIM_N).map(k=>({n:UI.DIM_N[k],v:s.rep[k]})),{fmt:v=>v.toFixed(0)}))}`; };
+/* ================= 存檔 ================= */
+SC.saves=(g,s)=>{ return card('存檔管理',`<div class="row" style="margin-bottom:8px"><label><input type="checkbox" data-chg="auto" ${UI.autosave?'checked':''}> 每年底自動存檔（輪替 3 槽）</label></div><div id="slots" class="sm mut">讀取中…</div><div class="row" style="margin-top:10px"><button class="btn" data-act="exportSave">匯出存檔檔案</button><label class="btn ghost" style="cursor:pointer">匯入存檔<input id="imp" type="file" accept=".json,.sav,application/json" hidden></label><button class="btn ghost" data-act="pasteImp">貼上文字匯入</button></div><p class="sm mut">存檔含校驗碼與版本號；讀檔時會檢查損毀、自動修復 NaN 並遷移舊版本。儲存位置：瀏覽器 IndexedDB（無法使用時退回 localStorage／記憶體）。</p>`)+card('資料一致性檢查',`<button class="btn sm" data-act="chk">檢查目前存檔</button><div id="chkr" class="sm" style="margin-top:6px"></div>`); };
+UI.after.saves=()=>{ UI.refreshSlots(); const i=UI.$('#imp'); if(i) i.onchange=async e=>{ const f=e.target.files[0]; if(!f) return; try{ const t=await f.text(); const g=Save.deserialize(t); UI.load(g,'已匯入存檔'+(g._fixed?`（自動修復 ${g._fixed} 處）`:'')); }catch(err){ UI.toast('存檔無法讀取：'+err.message,true); } }; };
+UI.refreshSlots=async()=>{ const el=UI.$('#slots'); if(!el) return; const l=await Save.list(); const lab=k=>k.startsWith('auto')?'自動存檔 '+(+k.slice(4)+1):'手動存檔 '+k.slice(1);
+  el.innerHTML=UI.table([['槽位'],['內容'],['時間'],['']],l.map(x=>({c:[lab(x.slot),x.empty?'<span class="mut">（空）</span>':`${esc(x.meta.school)}｜${x.meta.y}年第${x.meta.w}週｜學生 ${x.meta.stu}｜${x.meta.schools} 校`,x.empty?'':new Date(x.meta.savedAt).toLocaleString(),(x.slot.startsWith('m')?`<button class="btn sm" data-act="slotSave" data-s="${x.slot}">存檔</button> `:'')+(x.empty?'':`<button class="btn sm gold" data-act="slotLoad" data-s="${x.slot}">讀取</button> <button class="btn sm ghost" data-act="slotDel" data-s="${x.slot}">刪</button>`)]}))); };
+UI.chg.auto=v=>{ UI.autosave=v; };
+UI.act.slotSave=async d=>{ await Save.put(d.s,UI.g); UI.toast('已存檔'); UI.refreshSlots(); };
+UI.act.slotLoad=async d=>{ try{ const g=await Save.get(d.s); UI.load(g,'讀檔成功'+(g._fixed?`（自動修復 ${g._fixed} 處）`:'')); }catch(e){ UI.toast('讀檔失敗：'+e.message,true); } };
+UI.act.slotDel=d=>UI.confirm('刪除此存檔？',async()=>{ await Save.del(d.s); UI.refreshSlots(); });
+UI.act.exportSave=()=>{ const t=Save.serialize(UI.g); try{ const b=new Blob([t],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`school-empire_${UI.g.y}-w${UI.g.w}.json`; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },500); }catch(e){}
+  UI.modal(`<h3>匯出存檔</h3><p class="sm">若瀏覽器沒有自動下載（例如在內嵌預覽中），請複製下列文字存成 .json，之後用「匯入存檔」貼上或選檔。</p><textarea id="exp" readonly style="width:100%;height:120px;font-size:11px">${esc(t)}</textarea><div class="row" style="margin-top:8px"><button class="btn gold" data-act="copyExp">複製</button><button class="btn ghost" data-act="closeModal">關閉</button></div>`); };
+UI.act.copyExp=()=>{ const t=UI.$('#exp'); t.select(); try{ navigator.clipboard.writeText(t.value).then(()=>UI.toast('已複製'),()=>{ document.execCommand('copy'); UI.toast('已複製'); }); }catch(e){ try{ document.execCommand('copy'); UI.toast('已複製'); }catch(_){ UI.toast('請手動複製',true); } } };
+UI.act.chk=()=>{ const is=Save.check(UI.g); UI.$('#chkr').innerHTML=is.length?`<span class="neg">發現 ${is.length} 項不一致：</span><br>${is.slice(0,8).map(esc).join('<br>')}`:'<span class="pos">✔ 帳務借貸平衡、資產登記冊、借款明細與合併報表勾稽皆通過。</span>'; };
+})(typeof window!=='undefined'?window:globalThis);
+
+(function(){ const UI=window.SE.UI; UI.act.pasteImp=()=>{ const d=UI.modal('<h3>貼上存檔文字</h3><textarea id="pi" style="width:100%;height:140px"></textarea><div class="row" style="margin-top:8px"><button class="btn gold" id="pgo">匯入</button><button class="btn ghost" data-act="closeModal">取消</button></div>'); UI.$('#pgo',d).onclick=()=>{ try{ const g=window.SE.Save.deserialize(UI.$('#pi',d).value.trim()); UI.closeModal(); UI.load(g,'已匯入存檔'); }catch(e){ UI.toast('存檔無法讀取：'+e.message,true); } }; }; })();
