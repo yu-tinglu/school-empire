@@ -1046,36 +1046,36 @@
   },
   "bld:library:1:any:0": {
    "src": "buildings/library_lv1.png",
-   "ox": 88.0,
-   "oy": 50.73,
-   "k": 0.7273,
+   "ox": 120.0,
+   "oy": 85.22,
+   "k": 0.2007,
    "cat": "building",
    "status": "final",
-   "w": 286,
-   "h": 188,
-   "origin": "_tmp_library_lv1 裁切（使用者提供）"
+   "w": 1355,
+   "h": 843,
+   "origin": "ChatGPT 生成（使用者提供）"
   },
   "bld:library:2:any:0": {
    "src": "buildings/library_lv2.png",
-   "ox": 88.0,
-   "oy": 53.59,
-   "k": 0.691,
+   "ox": 120.0,
+   "oy": 97.91,
+   "k": 0.1921,
    "cat": "building",
    "status": "final",
-   "w": 301,
-   "h": 202,
-   "origin": "_tmp_library_lv2 裁切（使用者提供）"
+   "w": 1416,
+   "h": 947,
+   "origin": "ChatGPT 生成（使用者提供）"
   },
   "bld:library:3:any:0": {
    "src": "buildings/library_lv3.png",
-   "ox": 88.0,
-   "oy": 36.14,
-   "k": 0.6047,
+   "ox": 120.0,
+   "oy": 100.11,
+   "k": 0.189,
    "cat": "building",
    "status": "final",
-   "w": 344,
-   "h": 202,
-   "origin": "_tmp_library_lv3 裁切（使用者提供）"
+   "w": 1439,
+   "h": 974,
+   "origin": "ChatGPT 生成（使用者提供）"
   },
   "bld:dorm:1:any:0": {
    "src": "buildings/dorm_lv1.png",
