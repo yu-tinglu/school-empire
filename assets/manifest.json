@@ -1690,13 +1690,13 @@
    "k": 1,
    "cat": "char",
    "status": "final",
-   "w": 3808,
+   "w": 4624,
    "h": 216,
    "fw": 136,
    "fh": 216,
    "ax": 68.0,
    "ay": 210,
-   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；僅正面）"
+   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；正面+背面）"
   },
   "char:student:0:1": {
    "src": "chars/student_0_1.png",
@@ -1705,13 +1705,13 @@
    "k": 1,
    "cat": "char",
    "status": "final",
-   "w": 3808,
+   "w": 4624,
    "h": 216,
    "fw": 136,
    "fh": 216,
    "ax": 68.0,
    "ay": 210,
-   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；僅正面）"
+   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；正面+背面）"
   },
   "char:student:0:2": {
    "src": "chars/student_0_2.png",
@@ -1720,13 +1720,13 @@
    "k": 1,
    "cat": "char",
    "status": "final",
-   "w": 3808,
+   "w": 4624,
    "h": 216,
    "fw": 136,
    "fh": 216,
    "ax": 68.0,
    "ay": 210,
-   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；僅正面）"
+   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；正面+背面）"
   },
   "char:student:0:3": {
    "src": "chars/student_0_3.png",
@@ -1735,13 +1735,13 @@
    "k": 1,
    "cat": "char",
    "status": "final",
-   "w": 3808,
+   "w": 4624,
    "h": 216,
    "fw": 136,
    "fh": 216,
    "ax": 68.0,
    "ay": 210,
-   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；僅正面）"
+   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；正面+背面）"
   },
   "char:student:1:0": {
    "src": "chars/student_1_0.png",
@@ -1750,13 +1750,13 @@
    "k": 1,
    "cat": "char",
    "status": "final",
-   "w": 3808,
+   "w": 4624,
    "h": 216,
    "fw": 136,
    "fh": 216,
    "ax": 68.0,
    "ay": 210,
-   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；僅正面）"
+   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；正面+背面）"
   },
   "char:student:1:1": {
    "src": "chars/student_1_1.png",
@@ -1765,13 +1765,13 @@
    "k": 1,
    "cat": "char",
    "status": "final",
-   "w": 3808,
+   "w": 4624,
    "h": 216,
    "fw": 136,
    "fh": 216,
    "ax": 68.0,
    "ay": 210,
-   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；僅正面）"
+   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；正面+背面）"
   },
   "char:student:1:2": {
    "src": "chars/student_1_2.png",
@@ -1780,13 +1780,13 @@
    "k": 1,
    "cat": "char",
    "status": "final",
-   "w": 3808,
+   "w": 4624,
    "h": 216,
    "fw": 136,
    "fh": 216,
    "ax": 68.0,
    "ay": 210,
-   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；僅正面）"
+   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；正面+背面）"
   },
   "char:student:1:3": {
    "src": "chars/student_1_3.png",
@@ -1795,13 +1795,13 @@
    "k": 1,
    "cat": "char",
    "status": "final",
-   "w": 3808,
+   "w": 4624,
    "h": 216,
    "fw": 136,
    "fh": 216,
    "ax": 68.0,
    "ay": 210,
-   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；僅正面）"
+   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；正面+背面）"
   },
   "char:teacher:0:0": {
    "src": "chars/teacher_0_0.png",
@@ -1810,13 +1810,13 @@
    "k": 1,
    "cat": "char",
    "status": "final",
-   "w": 3808,
+   "w": 4624,
    "h": 216,
    "fw": 136,
    "fh": 216,
    "ax": 68.0,
    "ay": 210,
-   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；僅正面）"
+   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；正面+背面）"
   },
   "char:teacher:0:1": {
    "src": "chars/teacher_0_1.png",
@@ -1825,13 +1825,13 @@
    "k": 1,
    "cat": "char",
    "status": "final",
-   "w": 3808,
+   "w": 4624,
    "h": 216,
    "fw": 136,
    "fh": 216,
    "ax": 68.0,
    "ay": 210,
-   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；僅正面）"
+   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；正面+背面）"
   },
   "char:teacher:0:2": {
    "src": "chars/teacher_0_2.png",
@@ -1840,13 +1840,13 @@
    "k": 1,
    "cat": "char",
    "status": "final",
-   "w": 3808,
+   "w": 4624,
    "h": 216,
    "fw": 136,
    "fh": 216,
    "ax": 68.0,
    "ay": 210,
-   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；僅正面）"
+   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；正面+背面）"
   },
   "char:teacher:0:3": {
    "src": "chars/teacher_0_3.png",
@@ -1855,13 +1855,13 @@
    "k": 1,
    "cat": "char",
    "status": "final",
-   "w": 3808,
+   "w": 4624,
    "h": 216,
    "fw": 136,
    "fh": 216,
    "ax": 68.0,
    "ay": 210,
-   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；僅正面）"
+   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；正面+背面）"
   },
   "char:teacher:1:0": {
    "src": "chars/teacher_1_0.png",
@@ -1870,13 +1870,13 @@
    "k": 1,
    "cat": "char",
    "status": "final",
-   "w": 3808,
+   "w": 4624,
    "h": 216,
    "fw": 136,
    "fh": 216,
    "ax": 68.0,
    "ay": 210,
-   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；僅正面）"
+   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；正面+背面）"
   },
   "char:teacher:1:1": {
    "src": "chars/teacher_1_1.png",
@@ -1885,13 +1885,13 @@
    "k": 1,
    "cat": "char",
    "status": "final",
-   "w": 3808,
+   "w": 4624,
    "h": 216,
    "fw": 136,
    "fh": 216,
    "ax": 68.0,
    "ay": 210,
-   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；僅正面）"
+   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；正面+背面）"
   },
   "char:teacher:1:2": {
    "src": "chars/teacher_1_2.png",
@@ -1900,13 +1900,13 @@
    "k": 1,
    "cat": "char",
    "status": "final",
-   "w": 3808,
+   "w": 4624,
    "h": 216,
    "fw": 136,
    "fh": 216,
    "ax": 68.0,
    "ay": 210,
-   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；僅正面）"
+   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；正面+背面）"
   },
   "char:teacher:1:3": {
    "src": "chars/teacher_1_3.png",
@@ -1915,13 +1915,13 @@
    "k": 1,
    "cat": "char",
    "status": "final",
-   "w": 3808,
+   "w": 4624,
    "h": 216,
    "fw": 136,
    "fh": 216,
    "ax": 68.0,
    "ay": 210,
-   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；僅正面）"
+   "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；正面+背面）"
   }
  },
  "event_map": {
