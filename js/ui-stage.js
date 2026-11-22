@@ -21,12 +21,13 @@ UI.render=function(){ if(!UI.stageMode()){ document.body.classList.remove('stage
   <nav class="sg-nav ${UI.navHide?'hide':''}" id="sgnav"><div class="sg-brand">${UI.ic('crest',26)}<b>School Empire</b></div>${nav}</nav>
   <button class="sg-tog" data-act="sgNav" aria-label="導覽">${si('gear',24)}</button>
   ${stat(g,s)}
-  <div class="sg-side"><button data-act="sgFloor">樓層</button><button data-act="xray">透視</button><button data-act="sgHide" aria-label="隱藏介面">👁</button></div>
+  <div class="sg-side"><button data-act="sgFloor">樓層</button><button data-act="xray">透視</button><button data-act="sgHide" aria-label="隱藏介面">👁</button><button data-act="sgZoom" aria-label="介面大小">Aa</button></div>
   <nav class="sg-dock">${dock}</nav>
   <button class="sg-map" data-act="zrst">校園地圖</button>
   <button class="sg-show" data-act="sgHide" aria-label="顯示介面">👁</button>
   <div class="sg-rot">橫向握持畫面更完整 ↻</div></div>`;
   const af=UI.after&&UI.after.campus; if(af) af(g,s); };
+UI.act.sgZoom=()=>{ const v=SE.hz.cycle(); UI.toast('介面大小 '+Math.round(v*100)+'%'); };
 UI.act.sgNav=()=>{ UI.navHide=!UI.navHide; const n=$('#sgnav'); if(n) n.classList.toggle('hide',UI.navHide); };
 UI.act.sgHide=()=>{ document.body.classList.toggle('sg-clean'); };
 UI.act.sgFloor=()=>{ const M=UI.map, id=M.sel; if(id) UI.act.bview({id}); else UI.toast('先點選一棟建築，再看樓層'); };
