@@ -3,7 +3,7 @@
 // 替換方式：把正式圖放進 assets/ 同名路徑（或改 manifest 的 src），並把 status 改成 "final"。不需要改程式。
 (function(root){
 'use strict';
-const SE=root.SE, ART=SE.ART||(SE.ART={}); const A=SE.ASSETS={man:null,img:new Map(),base:'assets/'};
+const SE=root.SE, ART=SE.ART||(SE.ART={}); const A=SE.ASSETS={useBuildings:false,man:null,img:new Map(),base:'assets/'};
 const hs=(a,b,c)=>{ let h=(a*374761393+b*668265263+(c|0)*2147483647)|0; h=(h^(h>>>13))*1274126177|0; return ((h^(h>>>16))>>>0)/4294967296; };
 let tm=0; A.changed=()=>{ clearTimeout(tm); tm=setTimeout(()=>{ if(ART._bc) ART._bc.clear(); if(ART._cs) ART._cs.clear(); const M=SE.UI&&SE.UI.map; if(M){ M._sc=null; M.need&&M.need(); } if(A.onChange) A.onChange(); },80); };
 A.init=()=>fetch(A.base+'manifest.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null).then(m=>{ if(m){ A.man=m; A.changed(); } }).catch(()=>{});
@@ -12,7 +12,7 @@ A.get=k=>{ const e=A.entry(k); if(!e) return null; let r=A.img.get(k); if(r) ret
 A.first=keys=>{ for(const k of keys){ const r=A.get(k); if(r) return r; } return null; };
 A.summary=()=>{ const s={final:0,placeholder:0,total:0}; if(A.man) for(const k in A.man.assets){ const e=A.man.assets[k]; s[e.status]=(s[e.status]||0)+1; s.total++; } return s; };
 // ---- 包裝程式暫代繪圖：圖片優先 ----
-const bs=ART.buildingSprite; ART.buildingSprite=function(b,d,ctx){ if(!ctx.cut&&!(b.prog>0)){ const cond=b.dur<25?2:b.dur<45?1:0; const ks=[`bld:${b.t}:${b.lv}:${ctx.stage}:${cond}`,`bld:${b.t}:${b.lv}:any:${cond}`,`bld:${b.t}:${b.lv}:any:0`]; for(let l=b.lv-1;l>=1;l--) ks.push(`bld:${b.t}:${l}:any:0`); const r=A.first(ks); if(r) return r; } return bs.apply(this,arguments); };
+const bs=ART.buildingSprite; ART.buildingSprite=function(b,d,ctx){ if(A.useBuildings&&!ctx.cut&&!(b.prog>0)){ const cond=b.dur<25?2:b.dur<45?1:0; const ks=[`bld:${b.t}:${b.lv}:${ctx.stage}:${cond}`,`bld:${b.t}:${b.lv}:any:${cond}`,`bld:${b.t}:${b.lv}:any:0`]; for(let l=b.lv-1;l>=1;l--) ks.push(`bld:${b.t}:${l}:any:0`); const r=A.first(ks); if(r) return r; } return bs.apply(this,arguments); };
 const ts=ART.treeSprite; ART.treeSprite=function(kind,season,v,dead){ const r=dead?A.get('tree:dead:any:0'):A.first([`tree:${kind}:${season}:${v%3}`,`tree:${kind}:any:${v%3}`]); return r||ts.apply(this,arguments); };
 const ds=ART.decorSprite; ART.decorSprite=function(name,season,extra){ const r=A.first([`decor:${name}:${season}`,`decor:${name}:any`]); return r||ds.apply(this,arguments); };
 ART._tile=(season,kind,x,y)=>{ if(!A.man) return null; const v=Math.floor(hs(x,y,5)*3); const r=A.first([`ground:${kind}:${season}:${v}`,`ground:${kind}:${season}:0`,`ground:${kind}:any:0`]); return r?r.cv:null; };
