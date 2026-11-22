@@ -143,37 +143,37 @@
    "origin": "21_pack_K 地磚轉等角"
   },
   "bld:classroom:1:any:0": {
-   "src": "buildings/classroom_lv1.png",
-   "ox": 88.0,
-   "oy": 26.06,
-   "k": 0.7324,
+   "src": "buildings/classroom_lv3.png",
+   "ox": 120.0,
+   "oy": 104.13,
+   "k": 0.1941,
    "cat": "building",
    "status": "final",
-   "w": 284,
-   "h": 153,
-   "origin": "02_main_building_sheet 裁切（使用者提供）"
+   "w": 1401,
+   "h": 969,
+   "origin": "ChatGPT 生成（使用者提供）"
   },
   "bld:classroom:2:any:0": {
-   "src": "buildings/classroom_lv2.png",
-   "ox": 88.0,
-   "oy": 35.5,
-   "k": 0.6865,
+   "src": "buildings/classroom_lv3.png",
+   "ox": 120.0,
+   "oy": 104.13,
+   "k": 0.1941,
    "cat": "building",
    "status": "final",
-   "w": 303,
-   "h": 177,
-   "origin": "02_main_building_sheet 裁切（使用者提供）"
+   "w": 1401,
+   "h": 969,
+   "origin": "ChatGPT 生成（使用者提供）"
   },
   "bld:classroom:3:any:0": {
    "src": "buildings/classroom_lv3.png",
-   "ox": 88.0,
-   "oy": 32.27,
-   "k": 0.6797,
+   "ox": 120.0,
+   "oy": 104.13,
+   "k": 0.1941,
    "cat": "building",
    "status": "final",
-   "w": 306,
-   "h": 174,
-   "origin": "02_main_building_sheet 裁切（使用者提供）"
+   "w": 1401,
+   "h": 969,
+   "origin": "ChatGPT 生成（使用者提供）"
   },
   "tree:round:spring:0": {
    "src": "props/tree_g1.png",
