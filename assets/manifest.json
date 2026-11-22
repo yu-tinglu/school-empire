@@ -133,54 +133,37 @@
    "h": 64
   },
   "bld:classroom:1:any:0": {
-   "src": "buildings/classroom_lv1_c0.png",
-   "ox": 80,
-   "oy": 183,
-   "k": 1,
+   "src": "buildings/classroom_lv1.png",
+   "ox": 88.0,
+   "oy": 20.2,
+   "k": 0.7324,
    "cat": "building",
-   "status": "placeholder",
-   "w": 192,
-   "h": 279
+   "status": "final",
+   "w": 284,
+   "h": 145,
+   "origin": "02_main_building_sheet 裁切（使用者提供）"
   },
   "bld:classroom:2:any:0": {
-   "src": "buildings/classroom_lv2_c0.png",
-   "ox": 80,
-   "oy": 183,
-   "k": 1,
+   "src": "buildings/classroom_lv2.png",
+   "ox": 88.0,
+   "oy": 28.64,
+   "k": 0.6865,
    "cat": "building",
-   "status": "placeholder",
-   "w": 192,
-   "h": 279
+   "status": "final",
+   "w": 303,
+   "h": 167,
+   "origin": "02_main_building_sheet 裁切（使用者提供）"
   },
   "bld:classroom:3:any:0": {
-   "src": "buildings/classroom_lv3_c0.png",
-   "ox": 80,
-   "oy": 205,
-   "k": 1,
+   "src": "buildings/classroom_lv3.png",
+   "ox": 88.0,
+   "oy": 26.16,
+   "k": 0.6797,
    "cat": "building",
-   "status": "placeholder",
-   "w": 192,
-   "h": 301
-  },
-  "bld:classroom:1:any:1": {
-   "src": "buildings/classroom_lv1_c1.png",
-   "ox": 80,
-   "oy": 183,
-   "k": 1,
-   "cat": "building",
-   "status": "placeholder",
-   "w": 192,
-   "h": 279
-  },
-  "bld:classroom:1:any:2": {
-   "src": "buildings/classroom_lv1_c2.png",
-   "ox": 80,
-   "oy": 183,
-   "k": 1,
-   "cat": "building",
-   "status": "placeholder",
-   "w": 192,
-   "h": 279
+   "status": "final",
+   "w": 306,
+   "h": 165,
+   "origin": "02_main_building_sheet 裁切（使用者提供）"
   },
   "tree:round:spring:0": {
    "src": "trees/round_spring_0.png",
@@ -917,6 +900,39 @@
     "sad",
     "sitchat"
    ]
+  },
+  "bld:admin:2:any:0": {
+   "src": "buildings/admin_lv2.png",
+   "ox": 124.8,
+   "oy": 32.46,
+   "k": 0.8052,
+   "cat": "building",
+   "status": "final",
+   "w": 310,
+   "h": 167,
+   "origin": "02_main_building_sheet 裁切（使用者提供）"
+  },
+  "bld:admin:3:any:0": {
+   "src": "buildings/admin_lv3.png",
+   "ox": 124.8,
+   "oy": 32.46,
+   "k": 0.8052,
+   "cat": "building",
+   "status": "final",
+   "w": 310,
+   "h": 167,
+   "origin": "02_main_building_sheet 裁切（使用者提供）"
+  },
+  "bld:admin:1:any:0": {
+   "src": "buildings/admin_lv1.png",
+   "ox": 124.8,
+   "oy": 64.02,
+   "k": 0.1642,
+   "cat": "building",
+   "status": "final",
+   "w": 1520,
+   "h": 1011,
+   "origin": "03_main_building_single 裁切（使用者提供）"
   }
  }
 }
