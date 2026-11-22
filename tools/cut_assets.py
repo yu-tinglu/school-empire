@@ -5,6 +5,8 @@ import json,sys,os
 import numpy as np
 from PIL import Image
 from scipy import ndimage as ndi
+sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
+from segment import defringe
 ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BLD={'classroom':(3,2),'office':(2,2),'library':(3,2),'lab':(2,2),'workshop':(3,2),'gym':(3,3),'field':(4,3),'pool':(3,2),'dorm':(3,2),'canteen':(3,2),'audit':(3,3),'clinic':(2,1),'research':(3,2),'admin':(3,3),'parking':(3,2),'landscape':(2,2)}
 SC=1.3  # 圖中地台外還有樹/花，整體略放大才與地格相稱
@@ -16,7 +18,7 @@ def cut(src,box,out,btype,lv,keep='largest',extra=None):
         sz=ndi.sum(al,lab,range(1,n+1)); k=1+int(np.argmax(sz)); m=ndi.binary_dilation(lab==k,iterations=6)
         a[:,:,3]=np.where(m,a[:,:,3],0)
     ys,xs=np.where(a[:,:,3]>40); x0,x1,y0,y1=xs.min(),xs.max()+1,ys.min(),ys.max()+1
-    im=Image.fromarray(a).crop((x0,y0,x1,y1)); im.save(f'{ROOT}/assets/buildings/{out}.png')
+    im=defringe(Image.fromarray(a).crop((x0,y0,x1,y1))); im.save(f'{ROOT}/assets/buildings/{out}.png')
     w,h=BLD[btype]; bw,bh=im.size; k=(w+h)*32/bw*SC
     ox=bw/2*k-(w-h)*16; oy=bh*k-(w+h)*16-6
     return dict(src=f'buildings/{out}.png',ox=round(ox,2),oy=round(oy,2),k=round(k,4),cat='building',status='final',w=bw,h=bh,origin=f'{src} 裁切（使用者提供）')

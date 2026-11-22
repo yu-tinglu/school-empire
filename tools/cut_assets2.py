@@ -25,13 +25,13 @@ for i,(n,t) in enumerate(names):
     for lv in (1,2,3): job(im,f'{t}_lv{lv}',t,lv,m)
 # 2) K 包的升級系列（圖書館/體育館/宿舍），依箭頭切開
 k=S('21_pack_K_game_assets')
-WIN=[(2,108),(124,228),(238,332),(334,456)]
+WIN=[(0,116),(120,230),(234,336),(332,460)]
 def series(box,t,picks):
     strip=k.crop(box)
     for lv,idx in enumerate(picks,1):
-        x0,x1=WIN[idx]; im=rm_bg(strip.crop((x0,0,x1,strip.height)),tol=46 if t=='dorm' else 34)
+        x0,x1=WIN[idx]; im=rm_bg(strip.crop((x0,0,x1,strip.height)),tol=40 if t=='dorm' else 30,grow=1.15)
         im=im.resize((im.width*3,im.height*3),Image.LANCZOS); job(im,f'{t}_lv{lv}',t,lv,m)
 series((8,465,468,537),'library',[0,1,2])
 series((8,550,468,628),'gym',[0,1,3])
-series((8,625,468,666),'dorm',[0,2,3])
+series((8,611,468,666),'dorm',[0,2,3])
 json.dump(m,open(mp,'w'),ensure_ascii=False,indent=1)

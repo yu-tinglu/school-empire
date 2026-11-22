@@ -52,6 +52,11 @@ function drawSection(c,W,Hh,t){ const b=V.b,d=D.BLD[b.t],cf=cfg(b); const rooms=
 const hsr=(id,t)=>SE.CS.hs(id,Math.floor(t/3),77)<.12;
 // 放大教室：等角室內
 function drawRoom(c,W,Hh,t){ const b=V.b; const rooms=occupants(b); const ri=V.room; const ppl=rooms[ri]||[]; V.hits=[]; const sk=c.createLinearGradient(0,0,0,Hh); sk.addColorStop(0,'#dcecf7'); sk.addColorStop(1,'#f3ead3'); c.fillStyle=sk; c.fillRect(0,0,W,Hh);
+  { const A=root.SE.ASSETS, rk=b.t; const im=A&&A.first([`room:${rk}:${b.id%2}`,`room:${rk}:0`]); if(im){ // 手繪室內底圖（使用者提供）；人物排在地板區
+    const iw=im.cv.width, ih=im.cv.height, s0=Math.min((W-16)/iw,(Hh-46)/ih); const dw=iw*s0, dh=ih*s0, dx=(W-dw)/2, dy=(Hh-46-dh)/2+6; c.drawImage(im.cv,dx,dy,dw,dh);
+    const n=Math.min(ppl.length,14), cols=Math.min(5,Math.max(1,n)), rowsN=Math.ceil(n/cols); const dr=ppl.slice(0,14).map((p,i)=>({p,r:Math.floor(i/cols),cI:i%cols})); 
+    for(const {p,r,cI} of dr){ const fx=.2+.6*((cI+.5+(r%2?.3:0))/cols), fy=.56+.3*((r+.5)/Math.max(rowsN,1)); const px=dx+dw*Math.min(.86,fx), py=dy+dh*fy; const pose=p.kind==='t'&&rk==='classroom'?'talk':(p.act==='work'?'work':p.act==='rest'?'rest':(hsr(p.id,t)?'talk2':'study')); const sh=ART.chibiSheet(look(p)); const k=(dh/230)*(p.look.h||1)*(.8+.35*fy); const fr=ART.frameOf(pose,t+p.phase,1); c.drawImage(sh.cv,fr*sh.fw,0,sh.fw,sh.fh,px-sh.ax*k,py-sh.ay*k,sh.fw*k,sh.fh*k); V.hits.push({type:'person',id:p.id,x:px-sh.fw*k*.35,y:py-sh.ay*k,w:sh.fw*k*.7,h:sh.ay*k}); }
+    c.fillStyle='rgba(32,61,50,.85)'; c.font='bold 13px sans-serif'; c.textAlign='left'; c.fillText(`${roomName(b,ri)}　在場 ${ppl.length} 人（點人物看資料）`,14,Hh-12); return; } }
   const w=4.6,h=3.6,Hh2=30,tw=.16; const sc=Math.min((W-40)/((w+h)*32),(Hh-80)/((w+h)*16+Hh2+20)); const o={x:W/2+(h-w)*16*sc,y:54+Hh2*sc+ ((Hh-80)-((w+h)*16+Hh2)*sc)/2};
   c.save(); c.translate(o.x,o.y); c.scale(sc,sc); const oo={x:0,y:0}; const {box,poly,P,furniture}=H; const kind=b.t; const floorCol=kind==='canteen'?'#d6b482':kind==='library'?'#b88a60':kind==='dorm'?'#c9a67a':(kind==='lab'||kind==='research'||kind==='clinic')?'#e4ecee':'#d8bf8f';
   poly(c,[P(oo,0,0,0),P(oo,w,0,0),P(oo,w,h,0),P(oo,0,h,0)],floorCol,'rgba(90,60,30,.3)');
