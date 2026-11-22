@@ -29,14 +29,15 @@ def isolate(cell):
         cx=xs.mean(); score=len(xs)-abs(cx-W/2)*60
         if score>bs: bs=score;best=i
     if best is not None:
-        core=ndi.binary_dilation(lab==best,iterations=6)&m; body=ndi.binary_fill_holes(ndi.binary_closing(core,iterations=3)); a[:,:,3]=np.where(body,np.maximum(a[:,:,3],np.where(m,0,255)),0)
+        cy_,cx_=np.where(lab==best); colm=np.zeros_like(m); colm[:,max(0,cx_.min()-8):cx_.max()+9]=True
+        core=ndi.binary_dilation(lab==best,iterations=6)&m&colm; body=ndi.binary_fill_holes(ndi.binary_closing(core,iterations=3)); a[:,:,3]=np.where(body,np.maximum(a[:,:,3],np.where(m,0,255)),0)
         a[:,:,3]=np.where(body,np.where(m,a[:,:,3],255),0)
     im=defringe(Image.fromarray(a)); ys,xs=np.where(np.array(im)[:,:,3]>40)
-    top=max(0,ys.min()-6); cx=int((xs.min()+xs.max())/2); side=int(max(xs.max()-xs.min(),(ys.max()-top))*1.08)+10
+    top=max(0,ys.min()-6); cx=int((xs.min()+xs.max())/2); side=int((ys.max()-top)*1.05)+10
     sq=Image.new('RGBA',(side,side),(0,0,0,0)); sq.alpha_composite(im.crop((0,top,im.width,im.height)),(side//2-cx,0)) if side//2-cx>=0 else sq.alpha_composite(im.crop((cx-side//2,top,im.width,im.height)),(0,0))
-    yy,xx=np.mgrid[0:side,0:side]; r=np.sqrt(((xx-side/2)/(side*.5))**2+((yy-side*.46)/(side*.60))**2); vg=np.clip((1.0-r)/.22,0,1)
+    yy,xx=np.mgrid[0:side,0:side]; r=np.sqrt(((xx-side/2)/(side*.40))**2+((yy-side*.47)/(side*.58))**2); vg=np.clip((1.0-r)/.14,0,1)
     arr=np.array(sq); arr[:,:,3]=(arr[:,:,3]*vg).astype(np.uint8); sq=Image.fromarray(arr)
-    yy,xx=np.mgrid[0:side,0:side]; r=np.sqrt(((xx-side/2)/(side*.5))**2+((yy-side*.46)/(side*.60))**2); vg=np.clip((1.0-r)/.22,0,1)
+    yy,xx=np.mgrid[0:side,0:side]; r=np.sqrt(((xx-side/2)/(side*.40))**2+((yy-side*.47)/(side*.58))**2); vg=np.clip((1.0-r)/.14,0,1)
     arr=np.array(sq); arr[:,:,3]=(arr[:,:,3]*vg).astype(np.uint8); sq=Image.fromarray(arr)
     bg=Image.new('RGBA',sq.size,CREAM); bg.alpha_composite(sq); return bg.convert('RGB').resize((256,256),Image.LANCZOS)
 mp=f'{ROOT}/assets/manifest.json'; m=json.load(open(mp)); cnt={}
@@ -44,7 +45,7 @@ for k in [k for k in m['assets'] if k.startswith('portrait:')]: del m['assets'][
 for si,(src,y0,hh,x0,cw,n,gs,role,side) in enumerate(SETS):
     im=S(src)
     for i in range(n):
-        cx=x0+(i+.5)*cw; hw=cw*.52; box=(int(cx-hw),y0,int(cx+hw),y0+side)
+        cx=x0+(i+.5)*cw; hw=cw*.43; box=(int(cx-hw),y0,int(cx+hw),y0+side)
         p=isolate(im.crop(box))
         sx=1 if gs[i]=='F' else 0; key=(role,sx); j=cnt.get(key,0); cnt[key]=j+1
         fn=f'portraits/{role}_{sx}_{j}.png'; p.save(f'{ROOT}/assets/{fn}')
