@@ -14,8 +14,8 @@ rows={'student':K.crop((75,0,420,95)),'teacher':K.crop((75,100,420,205))}
 SP={}
 for r,im in rows.items():
     s=defringe(rm_bg(im,tol=26,grow=1.2)); parts=split(s,minarea=500,dil=1); parts=[p for p in parts if p.height>40]; SP[r]=parts; print(r,len(parts),[p.size for p in parts])
-def fit(p,th=54*3):
-    p=p.resize((int(p.width*th/p.height),th),Image.LANCZOS); return p
+def fit(p,th=50*3):
+    p=p.resize((int(p.width*th/p.height),th),Image.LANCZOS); a=np.array(p).astype(float); a[:,:,:3]=a[:,:,:3]*.94+8; return Image.fromarray(a.clip(0,255).astype(np.uint8))
 def hueshift(im,hs,sat=1.0,val=1.0):
     import colorsys
     a=np.array(im.convert('RGBA')).astype(float); rgb=a[:,:,:3]/255
@@ -55,7 +55,9 @@ for (role,sx),((i_walk,i_idle),i_back) in PICK.items():
             else: oy=0
             s=s.copy()
             if n in('w1','r1','br1','bw1'): pass
-            x=fi*FW*3+(FW*3-s.width)//2; y=FH*3-s.height-(0 if oy==0 else 0)
+            x=fi*FW*3+(FW*3-s.width)//2; y=FH*3-s.height-6
+            from PIL import ImageDraw,ImageFilter
+            shd=Image.new('RGBA',sh.size,(0,0,0,0)); dd=ImageDraw.Draw(shd); cx=fi*FW*3+FW*3//2; dd.ellipse([cx-34,FH*3-14,cx+34,FH*3-2],fill=(60,45,30,95)); shd=shd.filter(ImageFilter.GaussianBlur(3)); sh.alpha_composite(shd)
             sh.alpha_composite(s,(x,y))
         fn=f'chars/{role}_{sx}_{v}.png'; sh.save(f'{ROOT}/assets/{fn}')
         A[f'char:{role}:{sx}:{v}']=dict(src=fn,ox=0,oy=0,k=1,cat='char',status='final',w=sh.width,h=sh.height,fw=FW*3,fh=FH*3,ax=FW*3/2,ay=FH*3-6,origin='21_pack_K 行走圖（使用者提供，僅6張走姿；變體為換色）')

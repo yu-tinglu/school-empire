@@ -19,6 +19,11 @@ def cut(src,box,out,btype,lv,keep='largest',extra=None):
         a[:,:,3]=np.where(m,a[:,:,3],0)
     ys,xs=np.where(a[:,:,3]>40); x0,x1,y0,y1=xs.min(),xs.max()+1,ys.min(),ys.max()+1
     im=defringe(Image.fromarray(a).crop((x0,y0,x1,y1))); im.save(f'{ROOT}/assets/buildings/{out}.png')
+    from PIL import ImageFilter,ImageDraw
+    if min(im.size)<600: im=im.filter(ImageFilter.UnsharpMask(radius=1.6,percent=70,threshold=2))
+    # 地台下方柔和接地陰影，讓建築與地面融合
+    pad=int(im.height*.06); cv=Image.new('RGBA',(im.width,im.height+pad),(0,0,0,0)); sh=Image.new('RGBA',cv.size,(0,0,0,0)); ImageDraw.Draw(sh).ellipse([im.width*.08,im.height-pad*.4,im.width*.92,im.height+pad*.95],fill=(60,45,30,70)); sh=sh.filter(ImageFilter.GaussianBlur(pad*.45)); cv.alpha_composite(sh); cv.alpha_composite(im,(0,0)); im=cv
+    im.save(f'{ROOT}/assets/buildings/{out}.png')
     w,h=BLD[btype]; bw,bh=im.size; k=(w+h)*32/bw*SC
     ox=bw/2*k-(w-h)*16; oy=bh*k-(w+h)*16-6
     return dict(src=f'buildings/{out}.png',ox=round(ox,2),oy=round(oy,2),k=round(k,4),cat='building',status='final',w=bw,h=bh,origin=f'{src} 裁切（使用者提供）')
