@@ -56,7 +56,7 @@ ART.hand=(sp,amp,ink)=>{ const src=sp.cv; const w=src.width,h=src.height; if(!w|
 // 包裝各類精靈：對每個（已快取的）原圖只處理一次
 const HM=new WeakMap(); const wrap=(name,amp,ink)=>{ const f=ART[name]; ART[name]=function(){ const r=f.apply(this,arguments); if(!r||!r.cv||M.hand===false||r.external) return r; let h=HM.get(r); if(!h){ h=ART.hand(r,amp,ink); HM.set(r,h); } return h; }; };
 wrap('buildingSprite',1.3,1.3); wrap('treeSprite',1.7,1.1); wrap('decorSprite',1.0,1.0);
-{ const f=ART.chibiSheet; ART.chibiSheet=function(L){ const r=f.apply(this,arguments); if(!r||!r.cv||M.hand===false) return r; let h=HM.get(r); if(!h){ h=ART.hand(r,.5,.7); HM.set(r,h); } return h; }; }
+{ const f=ART.chibiSheet; ART.chibiSheet=function(L){ const r=f.apply(this,arguments); if(!r||!r.cv||M.hand===false||r.external) return r; let h=HM.get(r); if(!h){ h=ART.hand(r,.5,.7); HM.set(r,h); } return h; }; }
 // 每天更新天氣
 const _w=M.weather; let lastD=-1; M.tickWeather=()=>{ const g=UI.g; if(!g||!g.day) return; const k=g.abs*8+g.day.d; if(k!==lastD){ lastD=k; M.weather(g); } };
 const _hud=M.hud; M.hud=function(){ M.tickWeather(); return _hud.apply(this,arguments); };
