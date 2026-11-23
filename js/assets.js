@@ -6,9 +6,9 @@
 const SE=root.SE, ART=SE.ART||(SE.ART={}); const A=SE.ASSETS={useBuildings:false,man:null,img:new Map(),base:'assets/'};
 const hs=(a,b,c)=>{ let h=(a*374761393+b*668265263+(c|0)*2147483647)|0; h=(h^(h>>>13))*1274126177|0; return ((h^(h>>>16))>>>0)/4294967296; };
 let tm=0; A.changed=()=>{ clearTimeout(tm); tm=setTimeout(()=>{ if(ART._bc) ART._bc.clear(); if(ART._cs) ART._cs.clear(); const M=SE.UI&&SE.UI.map; if(M){ M._sc=null; M.need&&M.need(); } if(A.onChange) A.onChange(); },80); };
-A.init=()=>fetch(A.base+'manifest.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null).then(m=>{ if(m){ A.man=m; A.changed(); } }).catch(()=>{});
+A.init=()=>fetch(A.base+'manifest.json?v='+(SE.APPVER||''),{cache:'no-cache'}).then(r=>r.ok?r.json():null).then(m=>{ if(m){ A.man=m; A.changed(); } }).catch(()=>{});
 A.entry=k=>A.man&&A.man.assets&&A.man.assets[k];
-A.get=k=>{ const e=A.entry(k); if(!e) return null; let r=A.img.get(k); if(r) return r.ok?r.sp:null; r={ok:false}; A.img.set(k,r); const im=new Image(); im.onload=()=>{ const cv=document.createElement('canvas'); cv.width=im.naturalWidth; cv.height=im.naturalHeight; cv.getContext('2d').drawImage(im,0,0); r.ok=true; r.sp={cv,ox:e.ox||0,oy:e.oy||0,k:e.k||1,wcell:e.wcell,external:true,status:e.status,key:k,e}; A.changed(); }; im.onerror=()=>{ r.bad=1; }; im.src=A.base+e.src; return null; };
+A.get=k=>{ const e=A.entry(k); if(!e) return null; let r=A.img.get(k); if(r) return r.ok?r.sp:null; r={ok:false}; A.img.set(k,r); const im=new Image(); im.onload=()=>{ const cv=document.createElement('canvas'); cv.width=im.naturalWidth; cv.height=im.naturalHeight; cv.getContext('2d').drawImage(im,0,0); r.ok=true; r.sp={cv,ox:e.ox||0,oy:e.oy||0,k:e.k||1,wcell:e.wcell,external:true,status:e.status,key:k,e}; A.changed(); }; im.onerror=()=>{ r.bad=1; }; im.src=A.base+e.src+'?v='+(SE.APPVER||''); return null; };
 A.first=keys=>{ for(const k of keys){ const r=A.get(k); if(r) return r; } return null; };
 A.summary=()=>{ const s={final:0,placeholder:0,total:0}; if(A.man) for(const k in A.man.assets){ const e=A.man.assets[k]; s[e.status]=(s[e.status]||0)+1; s.total++; } return s; };
 // ---- 包裝程式暫代繪圖：圖片優先 ----

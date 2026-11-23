@@ -1,0 +1,15 @@
+/* 像一般手機 App 的行為 */
+html,body{overscroll-behavior:none;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;touch-action:manipulation;background:#1f3d2f}
+input,textarea,select{-webkit-user-select:text;user-select:text;font-size:16px}
+canvas,img{-webkit-user-drag:none;user-drag:none}
+body:not(.rot){padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+#spl{position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:radial-gradient(ellipse at 50% 35%,#fbf3dc,#e7d9b0 70%,#cdbd8d);color:#3a2f1c;font-family:'Zen Maru Gothic','Noto Sans TC',sans-serif;text-align:center;transition:opacity .45s;cursor:pointer}
+#spl.out{opacity:0;pointer-events:none}
+#spl img{width:min(34vmin,150px);height:min(34vmin,150px);border-radius:22%;box-shadow:0 6px 22px #0004}
+#spl h1{margin:6px 0 0;font-size:min(7vmin,30px);letter-spacing:.12em}
+#spl .sp-en{font-size:min(3.4vmin,14px);letter-spacing:.3em;opacity:.7}
+#spl .sp-tap{margin-top:14px;font-size:min(4vmin,16px);letter-spacing:.2em;animation:spb 1.4s ease-in-out infinite}
+@keyframes spb{50%{opacity:.25}}
+#spl .sp-ft{position:absolute;left:0;right:0;bottom:calc(10px + env(safe-area-inset-bottom));font-size:min(3vmin,12px);opacity:.75;line-height:1.7}
+#spl .sp-upd{min-height:1.4em;font-size:min(3.6vmin,14px)}
+#spl .sp-upd.new{background:#2f6b4a;color:#fff;padding:6px 14px;border-radius:999px;box-shadow:0 2px 8px #0003}
