@@ -10,11 +10,9 @@ U.show=(newer,manual,err)=>{ const b=d.getElementById('spUpd'); if(!b) return;
   if(newer){ b.className='sp-upd new'; b.innerHTML='發現新版本 '+U.latest+'　<u>點此更新</u>'; b.onclick=e=>{ e.stopPropagation(); U.apply(); }; }
   else{ b.className='sp-upd'; b.textContent=err?(manual?'無法檢查更新（請確認網路）':''):(manual?'已是最新版本':''); b.onclick=null; } };
 function init(){ const sp=d.getElementById('spl'); if(!sp) return;
-  d.getElementById('spVer').textContent='版本 v'+SE.APPVER; d.getElementById('spCp').textContent=SE.COPYRIGHT;
+  d.getElementById('spVer').textContent='v'+SE.APPVER; d.getElementById('spCp').textContent=SE.COPYRIGHT;
   let closed=false; const close=()=>{ if(closed) return; closed=true; sp.classList.add('out'); setTimeout(()=>sp.remove(),500); };
-  d.getElementById('spGo').addEventListener('click',close);
-  d.getElementById('spChk').addEventListener('click',()=>{ d.getElementById('spUpd').textContent='檢查中…'; U.check(true); });
-  const L=()=>sp.classList.toggle('land',r.innerWidth>r.innerHeight); L(); r.addEventListener('resize',L);
+  sp.addEventListener('click',close); sp.addEventListener('touchend',e=>{ e.preventDefault(); close(); },{passive:false});
   U.check(false); }
 d.addEventListener('visibilitychange',()=>{ if(!d.hidden) U.check(false); });
 if(d.readyState==='loading') d.addEventListener('DOMContentLoaded',init); else init();
