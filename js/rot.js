@@ -3,7 +3,7 @@
   const root=typeof window!=='undefined'?window:globalThis; if(!root.document) return;
   const SE=root.SE=root.SE||{}; let on=true; try{ on=localStorage.getItem('se_rot')!=='0'; }catch(e){}
   function upd(){
-    const w=root.innerWidth,h=root.innerHeight;
+    const w=root.innerWidth,h=root.innerHeight; const st=document.documentElement.style; st.setProperty('--rw',h+'px'); st.setProperty('--rh',w+'px'); st.setProperty('--rvw',(h/100)+'px');
     const r=on && h>w && w<=700;
     const b=document.body; if(!b) return;
     if(b.classList.contains('rot')===r) return;
