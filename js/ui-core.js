@@ -51,7 +51,7 @@ UI.NAVG=[['校長室',[['office','校長辦公室']]],['校務管理',[['finance
 UI.NAV=UI.NAVG.flatMap(g=>g[1].map(([k,n])=>[k,n]));
 UI.navShut=UI.navShut||{};
 UI.MOBILE=['office','campus','finance','events'];
-UI.go=(name,sub)=>{ UI.screen=name; UI.visited.add(name); if(sub) Object.assign(UI.sub,sub); UI.closeModal(); UI.render(); window.scrollTo(0,0); };
+UI.go=(name,sub)=>{ UI.screen=name; UI.visited.add(name); if(sub) Object.assign(UI.sub,sub); UI.closeModal(); UI.render(); window.scrollTo(0,0); document.body.scrollTop=0; };
 UI.pending=()=>UI.g?UI.g.events.pending.length:0;
 
 function header(){ const g=UI.g,s=UI.cur(); if(!s) return `<div class="top"><div class="r1"><span class="tname">${esc(g.group.name)}</span><span class="pill" style="background:#f2d6cd">事業已破產</span></div></div>`;

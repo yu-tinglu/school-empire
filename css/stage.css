@@ -38,7 +38,7 @@ body.sg-clean .sg-show{display:block}
 .sgi{display:block;object-fit:contain;filter:drop-shadow(0 1px 1px rgba(60,40,20,.35))}.sg-nav a .sgi{flex:none}.sg-dock a .sgi{margin-bottom:1px}.sg-tog{display:flex;align-items:center;justify-content:center}
 /* 自動橫向（直向手機） */
 html.rot{overflow:hidden;height:100%}
-body.rot{--vh:calc(var(--rh,100vw)/100);--vw:var(--rvw,1vh);position:fixed;top:0;left:var(--rh,100vw);width:var(--rw,100vh);height:var(--rh,100vw);transform-origin:0 0;transform:rotate(90deg);overflow-x:hidden;overflow-y:auto;max-width:none;touch-action:none;scrollbar-width:none}
+body.rot{--vh:calc(var(--rh,100vw)/100);--vw:var(--rvw,1vh);position:fixed;top:var(--ot,0px);left:calc(var(--rh,100vw) + var(--ol,0px));width:var(--rw,100vh);height:var(--rh,100vw);transform-origin:0 0;transform:rotate(90deg);overflow-x:hidden;overflow-y:auto;max-width:none;touch-action:none;scrollbar-width:none}
 body.rot::-webkit-scrollbar{display:none}
 body.rot .sg-rot{display:none}
 body.rot .sg-stats{gap:7px}body.rot .sg-st i{display:none}body.rot .sg-dock a{width:54px;padding:4px 3px 3px}body.rot .sg-dock a svg{width:20px;height:20px}body.rot .sg-nav{top:56px;bottom:74px;width:112px}body.rot .sg-top{max-width:calc(100% - 380px)}body.rot .stage .mapname{bottom:68px}

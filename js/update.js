@@ -11,6 +11,10 @@ U.show=(newer,manual,err)=>{ const b=d.getElementById('spUpd'); if(!b) return;
   else{ b.className='sp-upd'; b.textContent=err?(manual?'無法檢查更新（請確認網路）':''):(manual?'已是最新版本':''); b.onclick=null; } };
 function init(){ const sp=d.getElementById('spl'); if(!sp) return;
   d.getElementById('spVer').textContent='v'+SE.APPVER; d.getElementById('spCp').textContent=SE.COPYRIGHT;
+  const rb=d.getElementById('spRot'); const rs=()=>{ rb.textContent=(SE.rot&&SE.rot.on)?'':''; rb.textContent=(localStorage.getItem('se_rot')==='0')?'開啟自動旋轉':'關閉自動旋轉'; }; try{ rs(); rb.addEventListener('click',e=>{ e.stopPropagation(); SE.rot&&SE.rot.toggle(); rs(); }); }catch(e){}
+  // 長按版本號：顯示診斷資訊（回報畫面問題用）
+  let lp=0; const vb=d.getElementById('spVer'); const dg=()=>{ let x=d.getElementById('diag'); if(x){ x.remove(); return; } x=d.createElement('div'); x.id='diag'; const m=SE.metrics||{}; x.textContent=['v'+SE.APPVER,'inner '+m.iw+'x'+m.ih,'usable '+m.W+'x'+m.H,'safe T'+m.T+' R'+m.R+' B'+m.B+' L'+m.L,'rot '+m.rot+'  uw/uh '+m.uw+'/'+m.uh,'dpr '+m.dpr+'  standalone '+m.standalone,'ua '+navigator.userAgent.slice(-40),'(點此關閉)'].join('\n'); x.onclick=()=>x.remove(); d.body.appendChild(x); };
+  vb.addEventListener('touchstart',()=>{ lp=setTimeout(dg,600); },{passive:true}); ['touchend','touchmove'].forEach(t=>vb.addEventListener(t,()=>clearTimeout(lp),{passive:true})); vb.addEventListener('dblclick',dg);
   let closed=false; const close=()=>{ if(closed) return; closed=true; sp.classList.add('out'); setTimeout(()=>sp.remove(),500); };
   sp.addEventListener('click',close); sp.addEventListener('touchend',e=>{ e.preventDefault(); close(); },{passive:false});
   U.check(false); }

@@ -18,7 +18,7 @@ UI.render=function(){ if(!UI.stageMode()){ document.body.classList.remove('stage
   const dock=DOCK.map(([k,n])=>`<a data-act="go" data-k="${k}">${si(k,30)}<span>${n}</span>${k==='events'&&pc?`<em class="bd">${pc}</em>`:''}</a>`).join('');
   const app=$('#app');
   app.innerHTML=`<div class="stage">${UI.mapHTML('view',{tall:1})}
-  <nav class="sg-nav ${UI.navHide?'hide':''}" id="sgnav"><div class="sg-brand">${UI.ic('crest',26)}<b>School Empire</b></div>${nav}</nav>
+  <nav class="sg-nav ${(UI.navHide===undefined?(UI.navHide=!!(SE.rot&&SE.rot.on)):UI.navHide)?'hide':''}" id="sgnav"><div class="sg-brand">${UI.ic('crest',26)}<b>School Empire</b></div>${nav}</nav>
   <button class="sg-tog" data-act="sgNav" aria-label="導覽">${si('gear',24)}</button>
   ${stat(g,s)}
   <div class="sg-side"><button data-act="sgFloor">樓層</button><button data-act="xray">透視</button><button data-act="sgHide" aria-label="隱藏介面">👁</button><button data-act="sgZoom" aria-label="介面大小">Aa</button></div>
@@ -31,4 +31,6 @@ UI.act.sgZoom=()=>{ const v=SE.hz.cycle(); UI.toast('介面大小 '+Math.round(v
 UI.act.sgNav=()=>{ UI.navHide=!UI.navHide; const n=$('#sgnav'); if(n) n.classList.toggle('hide',UI.navHide); };
 UI.act.sgHide=()=>{ document.body.classList.toggle('sg-clean'); };
 UI.act.sgFloor=()=>{ const M=UI.map, id=M.sel; if(id) UI.act.bview({id}); else UI.toast('先點選一棟建築，再看樓層'); };
+/* 換頁時捲動位置歸零（旋轉模式捲的是 body） */
+(function(){ const r0=UI.render; let last=null; UI.render=function(){ const out=r0.apply(this,arguments); if(UI.screen!==last){ last=UI.screen; try{ document.body.scrollTop=0; }catch(e){} } return out; }; })();
 })(window);
