@@ -19,6 +19,15 @@
   const setHz=v=>{ hz=v; document.documentElement.style.setProperty('--hz',v); try{localStorage.setItem('se_hz',v);}catch(e){} root.dispatchEvent(new Event('resize')); };
   document.documentElement.style.setProperty('--hz',hz);
   SE.hz={cycle(){ const i=SZ.findIndex(x=>Math.abs(x-hz)<.02); setHz(SZ[(i+1)%SZ.length]); return hz; }, get v(){return hz;}};
+  /* 旋轉後原生捲動方向不可靠（iOS），自己處理：手指右移=內容往後捲 */
+  (function(){ let t=null,last=null,v=0;
+    const sc=(el,ax)=>{ for(;el&&el!==document.documentElement;el=el.parentElement){ const cs=getComputedStyle(el); const o=ax==='y'?cs.overflowY:cs.overflowX; if((o==='auto'||o==='scroll'||el===document.body)&&(ax==='y'?el.scrollHeight>el.clientHeight+1:el.scrollWidth>el.clientWidth+1)) return el; } return null; };
+    document.addEventListener('touchstart',e=>{ if(!document.body.classList.contains('rot')||e.touches.length!==1) {t=null;return;} const el=e.target; if(el.closest&&el.closest('canvas,.mapwrap,.stage,input,select,textarea,[contenteditable]')){t=null;return;} const q=e.touches[0]; t={x:q.clientX,y:q.clientY,el,m:false}; last=null; },{passive:true});
+    document.addEventListener('touchmove',e=>{ if(!t) return; const q=e.touches[0]; const dx=q.clientX-t.x,dy=q.clientY-t.y; t.x=q.clientX; t.y=q.clientY;
+      if(!t.m && Math.abs(dx)+Math.abs(dy)<4) return; t.m=true;
+      const a=sc(t.el,'y'); if(a&&dx){ a.scrollTop+=dx; } const b=sc(t.el,'x'); if(b&&dy){ b.scrollLeft-=dy; }
+      e.preventDefault(); },{passive:false});
+  })();
   root.addEventListener('resize',upd); root.addEventListener('orientationchange',()=>setTimeout(upd,120));
   if(document.readyState!=='loading') upd(); else document.addEventListener('DOMContentLoaded',upd);
 })();

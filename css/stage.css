@@ -38,7 +38,8 @@ body.sg-clean .sg-show{display:block}
 .sgi{display:block;object-fit:contain;filter:drop-shadow(0 1px 1px rgba(60,40,20,.35))}.sg-nav a .sgi{flex:none}.sg-dock a .sgi{margin-bottom:1px}.sg-tog{display:flex;align-items:center;justify-content:center}
 /* 自動橫向（直向手機） */
 html.rot{overflow:hidden;height:100%}
-body.rot{--vh:1vw;--vw:1vh;position:fixed;top:0;left:100vw;width:100vh;height:100vw;transform-origin:0 0;transform:rotate(90deg);overflow:hidden;max-width:none}
+body.rot{--vh:1vw;--vw:1vh;position:fixed;top:0;left:100vw;width:100vh;height:100vw;transform-origin:0 0;transform:rotate(90deg);overflow-x:hidden;overflow-y:auto;max-width:none;touch-action:none;scrollbar-width:none}
+body.rot::-webkit-scrollbar{display:none}
 body.rot .sg-rot{display:none}
 body.rot .sg-stats{gap:7px}body.rot .sg-st i{display:none}body.rot .sg-dock a{width:54px;padding:4px 3px 3px}body.rot .sg-dock a svg{width:20px;height:20px}body.rot .sg-nav{top:56px;bottom:74px;width:112px}body.rot .sg-top{max-width:calc(100% - 380px)}body.rot .stage .mapname{bottom:68px}
 body.rot .sg-brand{display:none}body.rot .sg-nav{padding:5px 4px;top:54px}body.rot .sg-nav a{padding:4px 6px;font-size:11px;gap:5px}body.rot .sg-nav a svg{width:15px;height:15px}body.rot .sg-date{display:none}body.rot .sg-top{padding:4px 9px;gap:8px;max-width:calc(100% - 410px)}body.rot .sg-name{font-size:13px}body.rot .stage .maphud{padding:4px 6px;gap:5px;font-size:11px}body.rot .stage .maphud .spd button{padding:3px 6px;margin-right:2px}body.rot .stage .mapctl{transform:translateY(-120%)}body.rot .stage .mapctl button{width:34px;height:34px}body.rot .sg-side{transform:translateY(25%)}body.rot .sg-side button{padding:5px 8px}body.rot .stage .maphud select{max-width:62px}
