@@ -48,9 +48,10 @@ def build(path,hs=1.0):
         if w.width>outw: w=w.crop(((w.width-outw)//2,0,(w.width-outw)//2+outw,w.height))
         P.append(w)
     return P
-def build_act(path,Hw):
-    raw=Image.open(path).convert('RGB'); im=key(raw); W,H=im.size; cw,ch=W/4,H/4
-    cells=[[im.crop((int(c*cw),int(r*ch),int((c+1)*cw),int((r+1)*ch))) for c in range(4)] for r in range(4)]
+def build_act(path,Hw,nc=4):
+    raw=Image.open(path).convert('RGB'); im=key(raw); W,H=im.size; cw,ch=W/nc,H/4
+    cells=[[im.crop((int(c*cw),int(r*ch),int((c+1)*cw),int((r+1)*ch))) for c in range(nc)] for r in range(4)]
+    if nc>4: cells=[[row[i] for i in ([0,1,3,4] if r==0 else [0,1,2,3])] for r,row in enumerate(cells)]
     bb=lambda f:f.getchannel('A').point(lambda v:255 if v>40 else 0).getbbox()
     ha=bb(cells[2][0]); ha=ha[3]-ha[1]; sa=Hw/ha; out=[]
     for r in range(4):
@@ -87,23 +88,35 @@ def sheet(P,B,ACT=None):
         x=cx-s.width//2; y=FH*Q-s.height-int(1.6*Q)-lifts.get(n,0)
         sh.alpha_composite(s,(x,y))
     return sh
+NODESK={'t1_c'}
+NC={'p1_a':6}   # 動作表欄數（預設 4）
+TMP=[]
+def NV(role,n): return 1 if role in('kid','principal','admin') else (min(n,6) if role=='teacher' else 4)
 if __name__=='__main__':
     mp=f'{ROOT}/assets/manifest.json'; m=json.load(open(mp)); A=m['assets']
     os.makedirs(f'{ROOT}/assets/chars',exist_ok=True)
     for k in [k for k in A if k.startswith('char:')]: del A[k]
     for f in glob.glob(f'{ROOT}/assets/chars/*.png'): os.remove(f)
     groups={}
+    # 只有動作表、沒有正面走路表的角色：用動作表第一列當走路
+    for ap in glob.glob(f'{ROOT}/assets/source/walk/*_act.png'):
+        wp=ap[:-8]+'.png'
+        if not os.path.exists(wp) and os.path.exists(ap[:-8]+'_back.png'):
+            im=Image.open(ap); im.crop((0,0,im.width,im.height//4)).save(wp); TMP.append(wp)
     for p in sorted(glob.glob(f'{ROOT}/assets/source/walk/*.png')):
         n=os.path.basename(p)[:-4]
         if n.endswith('_back') or n.endswith('_act'): continue
-        role={'s':'student','t':'teacher','k':'kid'}[n[0]]; sx=int(n[1]); groups.setdefault((role,sx),[]).append(p)
+        role={'s':'student','t':'teacher','k':'kid','p':'principal','a':'admin'}[n[0]]; sx=int(n[1]); groups.setdefault((role,sx),[]).append(p)
     for (role,sx),L in groups.items():
         shs=[]
         for p in L:
             hs=.8 if role=='kid' else 1.0; Pf=build(p,hs); B=build(p[:-4]+'_back.png',hs); ap=p[:-4]+'_act.png'
-            shs.append(sheet(Pf,B,build_act(ap,Pf[1].height) if os.path.exists(ap) else None))
-        for v in range(1 if role=='kid' else 4):
+            ACT=build_act(ap,Pf[1].height,NC.get(os.path.basename(p)[:-4],4)) if os.path.exists(ap) else None
+            if ACT and os.path.basename(p)[:-4] in NODESK: ACT[2]=[(Pf[1],0)]*4   # 該張第三列是坐在桌前，不能當站立說話
+            shs.append(sheet(Pf,B,ACT))
+        for v in range(NV(role,len(L))):
             sh=shs[v%len(shs)]; fn=f'chars/{role}_{sx}_{v}.png'; sh.quantize(256,method=Image.Quantize.FASTOCTREE,dither=Image.Dither.NONE).save(f'{ROOT}/assets/{fn}',optimize=True)
             A[f'char:{role}:{sx}:{v}']=dict(src=fn,ox=0,oy=0,k=1,cat='char',status='final',w=sh.width,h=sh.height,fw=FW*Q,fh=FH*Q,ax=FW*Q/2,ay=FH*Q-int(1.6*Q),origin='使用者提供的 ChatGPT 走路圖（6 格走路循環；正面+背面）')
         print(role,sx,len(L),'sources')
+    for wp in TMP: os.remove(wp)
     json.dump(m,open(mp,'w'),ensure_ascii=False,indent=1)
