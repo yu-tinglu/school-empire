@@ -7,7 +7,7 @@ from PIL import Image,ImageDraw,ImageFilter
 from scipy import ndimage as ndi
 ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FW,FH,Q=34,54,4
-FRN=['idle','w1','w2','bidle','bw1','bw2','sit','study','talk','talk2','ex1','ex2','work','rest','r1','r2','br1','br2','sweep','happy','sad','sitchat','wk0','wk1','wk2','wk3','wk4','wk5','bwk0','bwk1','bwk2','bwk3','bwk4','bwk5']
+FRN=['idle','w1','w2','bidle','bw1','bw2','sit','study','talk','talk2','ex1','ex2','work','rest','r1','r2','br1','br2','sweep','happy','sad','sitchat','wk0','wk1','wk2','wk3','wk4','wk5','bwk0','bwk1','bwk2','bwk3','bwk4','bwk5','rn0','rn1','rn2','rn3']
 def key(im):
     a=np.array(im.convert('RGB')).astype(float); r,g,b=a[:,:,0],a[:,:,1],a[:,:,2]
     # 洋紅度：r、b 高、g 低
@@ -35,11 +35,11 @@ def frames(path):
     for i in range(6):
         c=im.crop((int(i*cw),0,int((i+1)*cw),H)); fr.append(c)
     return fr
-def build(path):
+def build(path,hs=1.0):
     fr=frames(path); boxes=[f.getchannel('A').point(lambda v:255 if v>40 else 0).getbbox() for f in fr]
     top=min(b[1] for b in boxes); bot=max(b[3] for b in boxes)
     cxs=[(b[0]+b[2])/2 for b in boxes]; cx=float(np.median(cxs)); wmax=max(b[2]-b[0] for b in boxes)
-    hh=bot-top; tgt=(FH*Q-8)*.94; sc=tgt/hh; ww=int(max(wmax*sc+16,FW*Q)); 
+    hh=bot-top; tgt=(FH*Q-8)*.94*hs; sc=tgt/hh; ww=int(max(wmax*sc+16,FW*Q)); 
     outw=FW*Q
     P=[]
     for f,b in zip(fr,boxes):
@@ -48,19 +48,43 @@ def build(path):
         if w.width>outw: w=w.crop(((w.width-outw)//2,0,(w.width-outw)//2+outw,w.height))
         P.append(w)
     return P
-def sheet(P,B):
+def build_act(path,Hw):
+    raw=Image.open(path).convert('RGB'); im=key(raw); W,H=im.size; cw,ch=W/4,H/4
+    cells=[[im.crop((int(c*cw),int(r*ch),int((c+1)*cw),int((r+1)*ch))) for c in range(4)] for r in range(4)]
+    bb=lambda f:f.getchannel('A').point(lambda v:255 if v>40 else 0).getbbox()
+    ha=bb(cells[2][0]); ha=ha[3]-ha[1]; sa=Hw/ha; out=[]
+    for r in range(4):
+        bs=[bb(f) for f in cells[r]]; ground=max(b[3] for b in bs); cx=float(np.median([(b[0]+b[2])/2 for b in bs])); row=[]
+        for f,b in zip(cells[r],bs):
+            Wn=FW*Q/sa*1.15; w=f.crop((int(cx-Wn/2),b[1],int(cx+Wn/2),b[3])); w=w.resize((int(w.width*sa),int(w.height*sa)),Image.LANCZOS)
+            if w.width>FW*Q: w=w.crop(((w.width-FW*Q)//2,0,(w.width-FW*Q)//2+FW*Q,w.height))
+            lift=int((ground-b[3])*sa); lift=max(0,min(lift,FH*Q-int(1.6*Q)-w.height)); row.append((w,lift))
+        out.append(row)
+    return out
+def sheet(P,B,ACT=None):
     idle=P[1]; sh=Image.new('RGBA',(FW*Q*len(FRN),FH*Q),(0,0,0,0))
     pick={'idle':idle,'w1':P[0],'w2':P[3],'r1':P[0],'r2':P[3],'ex1':P[0],'ex2':P[3],'sweep':P[0]}
     for i in range(6): pick[f'wk{i}']=P[i]; pick[f'bwk{i}']=B[i]
+    lifts={}
+    if ACT:
+        run,sit,talk,jump=ACT
+        for i in range(4): pick[f'rn{i}']=run[i][0]; lifts[f'rn{i}']=run[i][1]
+        pick['talk']=talk[1][0]; pick['talk2']=talk[2][0]; pick['happy']=jump[2][0]; lifts['happy']=jump[2][1]
+        pick['ex1']=jump[0][0]; pick['ex2']=jump[1][0]; lifts['ex2']=jump[1][1]
+        pick['r1']=run[0][0]; pick['r2']=run[2][0]; lifts['r1']=run[0][1]; lifts['r2']=run[2][1]
+        for n,i in (('sit',0),('sitchat',1),('study',1),('work',2),('rest',0)): pick[n]=sit[i][0]
+    else:
+        for i in range(4): pick[f'rn{i}']=P[[0,1,3,4][i]]
     pick.update({'bidle':B[1],'bw1':B[0],'bw2':B[3],'br1':B[0],'br2':B[3]})
     for fi,n in enumerate(FRN):
         s=pick.get(n)
         if s is None:
             s=idle
-        if n in('sit','study','work','rest','sitchat','talk','talk2'): s=s.crop((0,0,s.width,int(s.height*.72)))
+        if n in('sit','study','work','rest','sitchat'): s=s.crop((0,0,s.width,int(s.height*(.66 if ACT else .72))))
+        elif n in('talk','talk2') and not ACT: s=s.crop((0,0,s.width,int(s.height*.72)))
         cx=fi*FW*Q+FW*Q//2
         shd=Image.new('RGBA',sh.size,(0,0,0,0)); ImageDraw.Draw(shd).ellipse([cx-11*Q,FH*Q-4*Q,cx+11*Q,FH*Q-.5*Q],fill=(60,45,30,90)); sh.alpha_composite(shd.filter(ImageFilter.GaussianBlur(Q)))
-        x=cx-s.width//2; y=FH*Q-s.height-int(1.6*Q)
+        x=cx-s.width//2; y=FH*Q-s.height-int(1.6*Q)-lifts.get(n,0)
         sh.alpha_composite(s,(x,y))
     return sh
 if __name__=='__main__':
@@ -71,12 +95,15 @@ if __name__=='__main__':
     groups={}
     for p in sorted(glob.glob(f'{ROOT}/assets/source/walk/*.png')):
         n=os.path.basename(p)[:-4]
-        if n.endswith('_back'): continue
-        role={'s':'student','t':'teacher'}[n[0]]; sx=int(n[1]); groups.setdefault((role,sx),[]).append(p)
+        if n.endswith('_back') or n.endswith('_act'): continue
+        role={'s':'student','t':'teacher','k':'kid'}[n[0]]; sx=int(n[1]); groups.setdefault((role,sx),[]).append(p)
     for (role,sx),L in groups.items():
-        shs=[sheet(build(p),build(p[:-4]+'_back.png')) for p in L]
-        for v in range(4):
-            sh=shs[v%len(shs)]; fn=f'chars/{role}_{sx}_{v}.png'; sh.save(f'{ROOT}/assets/{fn}',optimize=True)
+        shs=[]
+        for p in L:
+            hs=.8 if role=='kid' else 1.0; Pf=build(p,hs); B=build(p[:-4]+'_back.png',hs); ap=p[:-4]+'_act.png'
+            shs.append(sheet(Pf,B,build_act(ap,Pf[1].height) if os.path.exists(ap) else None))
+        for v in range(1 if role=='kid' else 4):
+            sh=shs[v%len(shs)]; fn=f'chars/{role}_{sx}_{v}.png'; sh.quantize(256,method=Image.Quantize.FASTOCTREE,dither=Image.Dither.NONE).save(f'{ROOT}/assets/{fn}',optimize=True)
             A[f'char:{role}:{sx}:{v}']=dict(src=fn,ox=0,oy=0,k=1,cat='char',status='final',w=sh.width,h=sh.height,fw=FW*Q,fh=FH*Q,ax=FW*Q/2,ay=FH*Q-int(1.6*Q),origin='使用者提供的 ChatGPT 走路圖（6 格走路循環；正面+背面）')
         print(role,sx,len(L),'sources')
     json.dump(m,open(mp,'w'),ensure_ascii=False,indent=1)
