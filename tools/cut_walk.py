@@ -62,8 +62,8 @@ def build_act(path,Hw,nc=4):
             lift=int((ground-b[3])*sa); lift=max(0,min(lift,FH*Q-int(1.6*Q)-w.height)); row.append((w,lift))
         out.append(row)
     return out
-def sheet(P,B,ACT=None):
-    idle=P[1]; sh=Image.new('RGBA',(FW*Q*len(FRN),FH*Q),(0,0,0,0))
+def sheet(P,B,ACT=None,idle_o=None):
+    idle=idle_o if idle_o is not None else P[1]; sh=Image.new('RGBA',(FW*Q*len(FRN),FH*Q),(0,0,0,0))
     pick={'idle':idle,'w1':P[0],'w2':P[3],'r1':P[0],'r2':P[3],'ex1':P[0],'ex2':P[3],'sweep':P[0]}
     for i in range(6): pick[f'wk{i}']=P[i]; pick[f'bwk{i}']=B[i]
     lifts={}
@@ -89,9 +89,11 @@ def sheet(P,B,ACT=None):
         sh.alpha_composite(s,(x,y))
     return sh
 NODESK={'t1_c'}
+IDLE_ACT={'s0_e'}   # 這張沒有站立走路格，待機用動作表的站立格
+FLIPSIT={'s0_e'}
 NC={'p1_a':6}   # 動作表欄數（預設 4）
 TMP=[]
-def NV(role,n): return 1 if role in('kid','principal','admin') else (min(n,6) if role=='teacher' else 4)
+def NV(role,n): return 1 if role in('kid','principal','admin') else (min(n,6) if role in('teacher','student') else 4)
 if __name__=='__main__':
     mp=f'{ROOT}/assets/manifest.json'; m=json.load(open(mp)); A=m['assets']
     os.makedirs(f'{ROOT}/assets/chars',exist_ok=True)
@@ -113,7 +115,9 @@ if __name__=='__main__':
             hs=.8 if role=='kid' else 1.0; Pf=build(p,hs); B=build(p[:-4]+'_back.png',hs); ap=p[:-4]+'_act.png'
             ACT=build_act(ap,Pf[1].height,NC.get(os.path.basename(p)[:-4],4)) if os.path.exists(ap) else None
             if ACT and os.path.basename(p)[:-4] in NODESK: ACT[2]=[(Pf[1],0)]*4   # 該張第三列是坐在桌前，不能當站立說話
-            shs.append(sheet(Pf,B,ACT))
+            bn=os.path.basename(p)[:-4]
+            if ACT and bn in FLIPSIT: ACT[1]=[(w.transpose(Image.FLIP_LEFT_RIGHT),l) for w,l in ACT[1]]   # 坐姿朝向跟其他格相反
+            shs.append(sheet(Pf,B,ACT,ACT[2][3][0] if ACT and bn in IDLE_ACT else None))
         for v in range(NV(role,len(L))):
             sh=shs[v%len(shs)]; fn=f'chars/{role}_{sx}_{v}.png'; sh.quantize(256,method=Image.Quantize.FASTOCTREE,dither=Image.Dither.NONE).save(f'{ROOT}/assets/{fn}',optimize=True)
             A[f'char:{role}:{sx}:{v}']=dict(src=fn,ox=0,oy=0,k=1,cat='char',status='final',w=sh.width,h=sh.height,fw=FW*Q,fh=FH*Q,ax=FW*Q/2,ay=FH*Q-int(1.6*Q),origin='使用者提供的 ChatGPT 走路圖（6 格走路循環；正面+背面）')
