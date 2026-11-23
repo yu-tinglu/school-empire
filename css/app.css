@@ -37,3 +37,22 @@ html,body{background-color:var(--cream,#f4eddb)}
 /* 啟動畫面小提示 */
 #spl .sp-hint{font-size:min(3.2vmin,13px);color:#5a4a2c;line-height:1.7}#spl .sp-hint u{margin-left:.6em}
 .ofdesk .sec summary{cursor:pointer;list-style:none}.ofdesk .sec summary::after{content:" ▾";opacity:.6}.ofdesk .sec[open] summary::after{content:" ▴"}
+/* 玩法引導 */
+.gcard{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 12px}
+.gnext,.gstage{background:#fffaf0;border:2px solid #d9b46a;border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:5px}
+.gnext{border-color:#c9712e;background:#fff3e0}.gnext b{font-size:17px}.gnext small,.gstage small{color:#8a6a3a}
+.gl{display:flex;justify-content:space-between;gap:8px;font-size:14px}.gl.ok{opacity:.6}
+.grep{grid-column:1/-1;font-size:13px}.rr{display:flex;justify-content:space-between;padding:2px 0}.rr.up b{color:#2e8b4a}.rr.dn b{color:#c0392b}
+.tbtn.go.todo{background:#e8742a;position:relative;animation:pls 1.4s infinite}
+.tbtn.go.todo::after{content:attr(data-n);position:absolute;top:-7px;right:-7px;background:#c0392b;color:#fff;border-radius:10px;min-width:18px;height:18px;font-size:12px;line-height:18px;text-align:center}
+@keyframes pls{50%{transform:scale(1.05)}}
+.q{display:inline-block;margin-left:3px;width:16px;height:16px;line-height:16px;text-align:center;border-radius:50%;background:#0002;font-size:11px;font-style:normal;cursor:pointer}
+.fl{position:fixed;left:50%;top:40%;transform:translateX(-50%);z-index:9999;font-weight:800;font-size:22px;padding:4px 12px;border-radius:14px;background:#fffc;pointer-events:none;animation:flo 2.2s ease-out forwards;opacity:0}
+.fl.up{color:#2e8b4a}.fl.dn{color:#c0392b}
+@keyframes flo{0%{opacity:0;margin-top:30px}15%{opacity:1}100%{opacity:0;margin-top:-70px}}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:9998;overflow:hidden}
+.confetti i{position:absolute;top:-10px;width:8px;height:12px;animation:cf 2s linear forwards}
+@keyframes cf{to{transform:translateY(110vh) rotate(540deg)}}
+@media(max-width:700px){.gcard{grid-template-columns:1fr}}
+body.rot .gcard{grid-template-columns:1fr 1fr}
+.gprem{font-weight:700;color:#7a4a1a;margin:0 0 6px;font-size:14px}
