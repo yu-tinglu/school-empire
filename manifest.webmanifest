@@ -1,0 +1,16 @@
+{
+  "name": "School Empire 學校模擬器",
+  "short_name": "學校模擬器",
+  "description": "經營一所學校，從 1900 年到 2060 年。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#f4eddb",
+  "theme_color": "#1f3d2f",
+  "icons": [
+    {"src": "assets/appicon/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "assets/appicon/icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "assets/appicon/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
