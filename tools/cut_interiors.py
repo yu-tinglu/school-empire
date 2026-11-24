@@ -1,11 +1,13 @@
 # 剖面圖（透視用）：assets/source/bld/cut_<type>.png → assets/bld/cut_<type>.png，manifest key cut:<type>:any
-import json,os,numpy as np
+import json,os,sys,numpy as np
+E=sys.argv[1] if len(sys.argv)>1 else 'any'
+PFX='cut_' if E=='any' else f'cut{E}_'
 from PIL import Image
 from scipy import ndimage as ndi
 FP={'classroom':(3,2),'lab':(2,2),'library':(3,2),'dorm':(3,2),'canteen':(3,2),'clinic':(2,1),'workshop':(3,2),'research':(3,2)}
 man=json.load(open('assets/manifest.json'))
 for t,(w,h) in FP.items():
-    p=f'assets/source/bld/cut_{t}.png'
+    p=f'assets/source/bld/{PFX}{t}.png'
     if not os.path.exists(p): continue
     a=np.array(Image.open(p).convert('RGB')).astype(float)
     m=np.minimum(a[...,0],a[...,2])-a[...,1]
@@ -22,7 +24,7 @@ for t,(w,h) in FP.items():
     s=(w+h)*32/(x1-x0)
     o=o.resize((round((x1-x0)*s),round((y1-y0)*s)),Image.LANCZOS)
     ox=h*32+(o.width-(w+h)*32)/2; oy=o.height-(w+h)*16-2
-    o.save(f'assets/bld/cut_{t}.png',optimize=True)
-    man['assets'][f'cut:{t}:any']={'src':f'bld/cut_{t}.png','ox':round(ox,1),'oy':round(oy,1),'k':1,'cat':'building','status':'final','w':o.width,'h':o.height,'origin':'使用者提供 ChatGPT 剖面圖（透視用，現代版，套用所有年代）'}
+    o.save(f'assets/bld/cut_{t}{'' if E=='any' else '_e'+E}.png',optimize=True)
+    man['assets'][f'cut:{t}:{E}']={'src':f'bld/cut_{t}{"" if E=="any" else "_e"+E}.png','ox':round(ox,1),'oy':round(oy,1),'k':1,'cat':'building','status':'final','w':o.width,'h':o.height,'origin':'使用者提供 ChatGPT 剖面圖（透視用，現代版，套用所有年代）'}
     print(t,o.size)
 json.dump(man,open('assets/manifest.json','w'),ensure_ascii=False,indent=1)
