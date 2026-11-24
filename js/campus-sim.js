@@ -72,7 +72,7 @@ CS.sync=(g,s,force)=>{ const sim=g._sim; if(!sim) return; const stamp=[s.id,s.bl
   chosen.sort((a,b)=>a[0].id-b[0].id);
   const keep=new Map(); for(const [src,kind] of chosen){ let pe=sim.byId.get(src.id); if(!pe){ pe=mkPerson(g,s,src,kind); pe.fresh=true; } pe.src=src; keep.set(src.id,pe); }
   sim.people=[...keep.values()]; sim.byId=keep; sim.claims={}; sim.cb=-1; for(const p of sim.people) if(p.fresh){ CS.place(g,s,p); p.fresh=false; } };
-CS.blocksFor=(g,s)=>{ const wd=g.day.d<5; return CS.schedule(s.type,SE.ART?SE.ART.eraStage(g.y):2,wd); };
+CS.blocksFor=(g,s)=>{ const wd=g.day.d<5; return CS.schedule(s.type,((SE.ART&&SE.ART.eraStage)?SE.ART.eraStage(g.y):(g.y<1930?0:g.y<1975?1:g.y<2005?2:g.y<2035?3:4)),wd); };
 const jit=(p,bi,k)=>(hs(p.id,bi,k)-.5)*.46;
 function setPos(p,dst,bi){ if(dst.inside){ p.inside=dst.b; p.seat=dst.seat; p.x=dst.b.x+dst.seat[0]; p.y=dst.b.y+dst.seat[1]; } else { p.inside=null; p.seat=null; const o=dst.act==='talk'||dst.act==='sit'?(dst.slot?.28:-.28):jit(p,bi,11); p.x=dst.cell[0]+.5+(dst.act==='talk'||dst.act==='sit'?o:jit(p,bi,11)); p.y=dst.cell[1]+.5+(dst.act==='talk'||dst.act==='sit'?o*.0:jit(p,bi,12)); p.face=dst.slot?-1:1; } }
 // 把人放到「現在這個時刻應該在的位置」（讀檔、新建時）
