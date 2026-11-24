@@ -3491,6 +3491,50 @@
    "w": 160,
    "h": 115,
    "origin": "使用者提供 ChatGPT 剖面圖（透視用，現代版，套用所有年代）"
+  },
+  "cut:canteen:any": {
+   "src": "bld/cut_canteen.png",
+   "ox": 64.0,
+   "oy": 33,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 160,
+   "h": 115,
+   "origin": "使用者提供 ChatGPT 剖面圖（透視用，現代版，套用所有年代）"
+  },
+  "cut:clinic:any": {
+   "src": "bld/cut_clinic.png",
+   "ox": 32.0,
+   "oy": 19,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 96,
+   "h": 69,
+   "origin": "使用者提供 ChatGPT 剖面圖（透視用，現代版，套用所有年代）"
+  },
+  "cut:workshop:any": {
+   "src": "bld/cut_workshop.png",
+   "ox": 64.0,
+   "oy": 36,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 160,
+   "h": 118,
+   "origin": "使用者提供 ChatGPT 剖面圖（透視用，現代版，套用所有年代）"
+  },
+  "cut:research:any": {
+   "src": "bld/cut_research.png",
+   "ox": 64.0,
+   "oy": 33,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 160,
+   "h": 115,
+   "origin": "使用者提供 ChatGPT 剖面圖（透視用，現代版，套用所有年代）"
   }
  },
  "event_map": {
