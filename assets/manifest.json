@@ -3627,12 +3627,12 @@
   "cut:classroom:1": {
    "src": "bld/cut_classroom_e1.png",
    "ox": 64.0,
-   "oy": 3,
+   "oy": 29,
    "k": 1,
    "cat": "building",
    "status": "final",
    "w": 160,
-   "h": 85,
+   "h": 111,
    "origin": "使用者提供 ChatGPT 剖面圖（透視用，現代版，套用所有年代）"
   }
  },
