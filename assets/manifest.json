@@ -3271,6 +3271,116 @@
    "w": 138,
    "h": 106,
    "origin": "使用者提供 ChatGPT 建築圖（1975–2005，Lv1）"
+  },
+  "bld:classroom:1:4:0": {
+   "src": "bld/classroom_e4.png",
+   "ox": 70.5,
+   "oy": 46,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 130,
+   "origin": "使用者提供 ChatGPT 建築圖（era4，Lv1）"
+  },
+  "bld:office:1:4:0": {
+   "src": "bld/office_e4.png",
+   "ox": 69.0,
+   "oy": 32,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 138,
+   "h": 100,
+   "origin": "使用者提供 ChatGPT 建築圖（era4，Lv1）"
+  },
+  "bld:library:1:4:0": {
+   "src": "bld/library_e4.png",
+   "ox": 70.5,
+   "oy": 57,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 141,
+   "origin": "使用者提供 ChatGPT 建築圖（era4，Lv1）"
+  },
+  "bld:lab:1:4:0": {
+   "src": "bld/lab_e4.png",
+   "ox": 69.0,
+   "oy": 41,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 138,
+   "h": 109,
+   "origin": "使用者提供 ChatGPT 建築圖（era4，Lv1）"
+  },
+  "bld:workshop:1:4:0": {
+   "src": "bld/workshop_e4.png",
+   "ox": 70.5,
+   "oy": 35,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 119,
+   "origin": "使用者提供 ChatGPT 建築圖（era4，Lv1）"
+  },
+  "bld:gym:1:4:0": {
+   "src": "bld/gym_e4.png",
+   "ox": 103.5,
+   "oy": 40,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 207,
+   "h": 140,
+   "origin": "使用者提供 ChatGPT 建築圖（era4，Lv1）"
+  },
+  "bld:field:1:4:0": {
+   "src": "bld/field_e4.png",
+   "ox": 105.0,
+   "oy": 46,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 242,
+   "h": 162,
+   "origin": "使用者提供 ChatGPT 建築圖（era4，Lv1）"
+  },
+  "bld:pool:1:4:0": {
+   "src": "bld/pool_e4.png",
+   "ox": 70.5,
+   "oy": 22,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 106,
+   "origin": "使用者提供 ChatGPT 建築圖（era4，Lv1）"
+  },
+  "bld:dorm:1:4:0": {
+   "src": "bld/dorm_e4.png",
+   "ox": 70.5,
+   "oy": 53,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 137,
+   "origin": "使用者提供 ChatGPT 建築圖（era4，Lv1）"
+  },
+  "bld:canteen:1:4:0": {
+   "src": "bld/canteen_e4.png",
+   "ox": 70.5,
+   "oy": 45,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 129,
+   "origin": "使用者提供 ChatGPT 建築圖（era4，Lv1）"
   }
  },
  "event_map": {

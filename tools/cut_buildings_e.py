@@ -4,7 +4,9 @@ from PIL import Image
 from scipy import ndimage as ndi
 T={'classroom':(3,2),'office':(2,2),'library':(3,2),'lab':(2,2),'workshop':(3,2),'gym':(3,3),'field':(4,3),'pool':(3,2),'dorm':(3,2),'canteen':(3,2),'audit':(3,3),'clinic':(2,1),'research':(3,2),'admin':(3,3),'parking':(3,2),'landscape':(2,2)}
 man=json.load(open('assets/manifest.json'))
+import os
 for t,(w,h) in T.items():
+    if not os.path.exists(f'assets/source/bld/e{E}_{t}.png'): continue
     a=np.array(Image.open(f'assets/source/bld/e{E}_{t}.png').convert('RGB')).astype(float)
     m=np.minimum(a[...,0],a[...,2])-a[...,1]
     alpha=np.clip(1-(m-40)/120,0,1)
