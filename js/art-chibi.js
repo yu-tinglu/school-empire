@@ -10,10 +10,10 @@ ART.CHIBI={FW,FH,FR:FRN};
 ART.lookOf=(p,kind,s,stage)=>{ const id=p.id; const staff=kind==='t'; const st=stage==null?2:stage; const sx=p.sx?1:0; const R=(k,n)=>Math.floor(hs(id,k,1)*n);
   const yr=SE.UI&&SE.UI.g?SE.UI.g.y:2020; const age=staff?(p.by!=null?yr-p.by:35):(p.by!=null?yr-p.by:12); const old=staff&&age>52;
   const uniS=st<=1?'#25324a':st===2?'#203D32':st===3?'#2e4a6a':'#2c5a52'; const uni=staff?['#46506a','#6a4a4a','#4a5a4a','#5a4a6a','#7a6a4a'][id%5]:uniS;
-  const role=staff?(p.role==='p'?'principal':p.role==='d'?'lead':p.role==='a'?'admin':'teacher'):'student'; const kid=!staff&&age<=11;
+  const role=staff?(p.role==='p'?'principal':p.role==='d'?'lead':p.role==='a'?'admin':'teacher'):'student'; const kid=!staff&&age<=11; const univ=!staff&&age>=18;
   const h=staff?.97+hs(id,6,1)*.14:Math.min(1.02,.62+Math.max(0,age-5)*.045)+ (hs(id,6,1)-.5)*.08; const w=.9+hs(id,7,1)*.24+(role==='principal'?.06:0);
-  return {sx,skin:SKIN[R(2,5)],hair:old?HAIR[5]:HAIR[R(3,HAIR.length)],style:R(4,6),uni,role,kid,acc:R(5,6),face:R(9,3),eye:R(10,3),h:+h.toFixed(2),w:+w.toFixed(2),brow:R(11,3),bag:role==='student'&&R(12,3)>0,era:st}; };
-ART.lookKey=l=>[l.sx,l.skin,l.hair,l.style,l.uni,l.role,l.kid?1:0,l.acc,l.face,l.eye,l.h,l.w,l.brow,l.bag?1:0,l.era].join('|');
+  return {sx,skin:SKIN[R(2,5)],hair:old?HAIR[5]:HAIR[R(3,HAIR.length)],style:R(4,6),uni,role,kid,univ,acc:R(5,6),face:R(9,3),eye:R(10,3),h:+h.toFixed(2),w:+w.toFixed(2),brow:R(11,3),bag:role==='student'&&R(12,3)>0,era:st}; };
+ART.lookKey=l=>[l.sx,l.skin,l.hair,l.style,l.uni,l.role,l.kid?1:0,l.univ?1:0,l.acc,l.face,l.eye,l.h,l.w,l.brow,l.bag?1:0,l.era].join('|');
 function rr(c,x,y,w,h,r){ c.beginPath(); c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r); c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath(); }
 const dk=(h,k)=>{ const n=parseInt(h.slice(1),16); const f=v=>Math.max(0,Math.min(255,v+k)); return `rgb(${f(n>>16)},${f((n>>8)&255)},${f(n&255)})`; };
 // 繪製角色：(cx, fy)＝腳底中心。pose 名稱見 FRN；back＝背面

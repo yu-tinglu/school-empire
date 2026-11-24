@@ -93,7 +93,7 @@ IDLE_ACT={'s0_e'}   # 這張沒有站立走路格，待機用動作表的站立�
 FLIPSIT={'s0_e'}
 NC={'p1_a':6}   # 動作表欄數（預設 4）
 TMP=[]
-def NV(role,n): return 1 if role in('kid','principal','admin') else (min(n,6) if role in('teacher','student') else 4)
+def NV(role,n): return 1 if role in('kid','principal','admin') else (min(n,6) if role in('teacher','student','uni') else 4)
 if __name__=='__main__':
     mp=f'{ROOT}/assets/manifest.json'; m=json.load(open(mp)); A=m['assets']
     os.makedirs(f'{ROOT}/assets/chars',exist_ok=True)
@@ -108,7 +108,7 @@ if __name__=='__main__':
     for p in sorted(glob.glob(f'{ROOT}/assets/source/walk/*.png')):
         n=os.path.basename(p)[:-4]
         if n.endswith('_back') or n.endswith('_act'): continue
-        role={'s':'student','t':'teacher','k':'kid','p':'principal','a':'admin'}[n[0]]; sx=int(n[1]); groups.setdefault((role,sx),[]).append(p)
+        role={'s':'student','t':'teacher','k':'kid','p':'principal','a':'admin','u':'uni'}[n[0]]; sx=int(n[1]); groups.setdefault((role,sx),[]).append(p)
     for (role,sx),L in groups.items():
         shs=[]
         for p in L:
