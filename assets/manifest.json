@@ -2919,6 +2919,182 @@
    "w": 173,
    "h": 116,
    "origin": "使用者提供 ChatGPT 建築圖（1930 前，Lv1）"
+  },
+  "bld:classroom:1:1:0": {
+   "src": "bld/classroom_1_e1.png",
+   "ox": 70.5,
+   "oy": 23,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 107,
+   "origin": "使用者提供 ChatGPT 建築總覽圖（1930–1975，Lv1）"
+  },
+  "bld:office:1:1:0": {
+   "src": "bld/office_1_e1.png",
+   "ox": 69.0,
+   "oy": 52,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 138,
+   "h": 120,
+   "origin": "使用者提供 ChatGPT 建築總覽圖（1930–1975，Lv1）"
+  },
+  "bld:library:1:1:0": {
+   "src": "bld/library_1_e1.png",
+   "ox": 70.5,
+   "oy": 26,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 110,
+   "origin": "使用者提供 ChatGPT 建築總覽圖（1930–1975，Lv1）"
+  },
+  "bld:lab:1:1:0": {
+   "src": "bld/lab_1_e1.png",
+   "ox": 69.0,
+   "oy": 37,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 138,
+   "h": 105,
+   "origin": "使用者提供 ChatGPT 建築總覽圖（1930–1975，Lv1）"
+  },
+  "bld:workshop:1:1:0": {
+   "src": "bld/workshop_1_e1.png",
+   "ox": 70.5,
+   "oy": 22,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 106,
+   "origin": "使用者提供 ChatGPT 建築總覽圖（1930–1975，Lv1）"
+  },
+  "bld:gym:1:1:0": {
+   "src": "bld/gym_1_e1.png",
+   "ox": 103.5,
+   "oy": 31,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 207,
+   "h": 131,
+   "origin": "使用者提供 ChatGPT 建築總覽圖（1930–1975，Lv1）"
+  },
+  "bld:field:1:1:0": {
+   "src": "bld/field_1_e1.png",
+   "ox": 105.0,
+   "oy": 25,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 242,
+   "h": 141,
+   "origin": "使用者提供 ChatGPT 建築總覽圖（1930–1975，Lv1）"
+  },
+  "bld:pool:1:1:0": {
+   "src": "bld/pool_1_e1.png",
+   "ox": 70.5,
+   "oy": 25,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 109,
+   "origin": "使用者提供 ChatGPT 建築總覽圖（1930–1975，Lv1）"
+  },
+  "bld:dorm:1:1:0": {
+   "src": "bld/dorm_1_e1.png",
+   "ox": 70.5,
+   "oy": 21,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 105,
+   "origin": "使用者提供 ChatGPT 建築總覽圖（1930–1975，Lv1）"
+  },
+  "bld:canteen:1:1:0": {
+   "src": "bld/canteen_1_e1.png",
+   "ox": 70.5,
+   "oy": 5,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 89,
+   "origin": "使用者提供 ChatGPT 建築總覽圖（1930–1975，Lv1）"
+  },
+  "bld:audit:1:1:0": {
+   "src": "bld/audit_1_e1.png",
+   "ox": 103.5,
+   "oy": 30,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 207,
+   "h": 130,
+   "origin": "使用者提供 ChatGPT 建築總覽圖（1930–1975，Lv1）"
+  },
+  "bld:clinic:1:1:0": {
+   "src": "bld/clinic_1_e1.png",
+   "ox": 36.0,
+   "oy": 4,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 104,
+   "h": 56,
+   "origin": "使用者提供 ChatGPT 建築總覽圖（1930–1975，Lv1）"
+  },
+  "bld:research:1:1:0": {
+   "src": "bld/research_1_e1.png",
+   "ox": 70.5,
+   "oy": 31,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 115,
+   "origin": "使用者提供 ChatGPT 建築總覽圖（1930–1975，Lv1）"
+  },
+  "bld:admin:1:1:0": {
+   "src": "bld/admin_1_e1.png",
+   "ox": 103.5,
+   "oy": 32,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 207,
+   "h": 132,
+   "origin": "使用者提供 ChatGPT 建築總覽圖（1930–1975，Lv1）"
+  },
+  "bld:parking:1:1:0": {
+   "src": "bld/parking_1_e1.png",
+   "ox": 70.5,
+   "oy": 11,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 95,
+   "origin": "使用者提供 ChatGPT 建築總覽圖（1930–1975，Lv1）"
+  },
+  "bld:landscape:1:1:0": {
+   "src": "bld/landscape_1_e1.png",
+   "ox": 69.0,
+   "oy": 32,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 138,
+   "h": 100,
+   "origin": "使用者提供 ChatGPT 建築總覽圖（1930–1975，Lv1）"
   }
  },
  "event_map": {

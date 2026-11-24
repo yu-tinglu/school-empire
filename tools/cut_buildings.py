@@ -1,7 +1,10 @@
 import json,sys,numpy as np
 from PIL import Image
 from scipy import ndimage as ndi
-SRC='assets/source/bld/sheet_lv1_era3.png'
+import sys
+ERA=sys.argv[1] if len(sys.argv)>1 else 'any'
+SRC='assets/source/bld/sheet_lv1_era3.png' if ERA=='any' else f'assets/source/bld/sheet_lv1_era{ERA}.png'
+SUF='' if ERA=='any' else f'_e{ERA}'
 ORDER=[('classroom',3,2),('office',2,2),('library',3,2),('lab',2,2),('workshop',3,2),('gym',3,3),('field',4,3),('pool',3,2),('dorm',3,2),('canteen',3,2),('audit',3,3),('clinic',2,1),('research',3,2),('admin',3,3),('parking',3,2),('landscape',2,2)]
 im=Image.open(SRC).convert('RGB');a=np.array(im).astype(float);H,W=a.shape[:2]
 # 洋紅鍵：以「洋紅度」算 alpha，並去溢色
@@ -45,7 +48,7 @@ for i,(t,w,h) in enumerate(ORDER):
     o=o.resize((max(nw,1),max(nh,1)),Image.LANCZOS)
     # 錨點：佔地菱形上頂點。菱形底頂點＝圖底；寬度置中於 (w+h)*32
     ox=h*32+( o.width-(w+h)*32)/2; oy=o.height-(w+h)*16-4
-    o.save(f'assets/bld/{t}_1.png',optimize=True)
-    man['assets'][f'bld:{t}:1:any:0']={'src':f'bld/{t}_1.png','ox':round(ox,1),'oy':round(oy,1),'k':1,'cat':'building','status':'final','w':o.width,'h':o.height,'origin':'使用者提供 ChatGPT 建築總覽圖（2005–2035，Lv1，套用所有年代）'}
+    o.save(f'assets/bld/{t}_1{SUF}.png',optimize=True)
+    man['assets'][f'bld:{t}:1:{ERA}:0']={'src':f'bld/{t}_1{SUF}.png','ox':round(ox,1),'oy':round(oy,1),'k':1,'cat':'building','status':'final','w':o.width,'h':o.height,'origin':('使用者提供 ChatGPT 建築總覽圖（2005–2035，Lv1，套用所有年代）' if ERA=='any' else f'使用者提供 ChatGPT 建築總覽圖（era{ERA}，Lv1）')}
     print(t,o.size,round(ox),round(oy))
 json.dump(man,open('assets/manifest.json','w'),ensure_ascii=False,indent=1)
