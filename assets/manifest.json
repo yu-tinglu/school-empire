@@ -2027,6 +2027,21 @@
    "ax": 68.0,
    "ay": 210,
    "origin": "使用者提供的 ChatGPT 走路圖（6 格走路循環；正面+背面）"
+  },
+  "char:student:0:4": {
+   "src": "chars/student_0_4.png",
+   "ox": 0,
+   "oy": 0,
+   "k": 1,
+   "cat": "char",
+   "status": "final",
+   "w": 5168,
+   "h": 216,
+   "fw": 136,
+   "fh": 216,
+   "ax": 68.0,
+   "ay": 210,
+   "origin": "student 0_0 髮色改色(色相46.0)"
   }
  },
  "event_map": {
