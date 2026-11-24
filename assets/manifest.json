@@ -2875,6 +2875,50 @@
    "w": 207,
    "h": 141,
    "origin": "使用者提供 ChatGPT 建築圖（1930 前，Lv1）"
+  },
+  "bld:landscape:1:0:0": {
+   "src": "bld/landscape_e0.png",
+   "ox": 69.0,
+   "oy": 46,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 138,
+   "h": 114,
+   "origin": "使用者提供 ChatGPT 建築圖（1930 前，Lv1）"
+  },
+  "bld:clinic:1:0:0": {
+   "src": "bld/clinic_e0.png",
+   "ox": 36.0,
+   "oy": 25,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 104,
+   "h": 77,
+   "origin": "使用者提供 ChatGPT 建築圖（1930 前，Lv1）"
+  },
+  "bld:research:1:0:0": {
+   "src": "bld/research_e0.png",
+   "ox": 70.5,
+   "oy": 30,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 114,
+   "origin": "使用者提供 ChatGPT 建築圖（1930 前，Lv1）"
+  },
+  "bld:parking:1:0:0": {
+   "src": "bld/parking_e0.png",
+   "ox": 70.5,
+   "oy": 32,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 116,
+   "origin": "使用者提供 ChatGPT 建築圖（1930 前，Lv1）"
   }
  },
  "event_map": {

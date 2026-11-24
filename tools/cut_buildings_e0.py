@@ -1,7 +1,7 @@
 import json,numpy as np
 from PIL import Image
 from scipy import ndimage as ndi
-T={'canteen':(3,2),'lab':(2,2),'pool':(3,2),'field':(4,3),'workshop':(3,2),'audit':(3,3)}
+T={'landscape':(2,2),'clinic':(2,1),'research':(3,2),'parking':(3,2)}
 man=json.load(open('assets/manifest.json'))
 for t,(w,h) in T.items():
     a=np.array(Image.open(f'assets/source/bld/e0_{t}.png').convert('RGB')).astype(float)
