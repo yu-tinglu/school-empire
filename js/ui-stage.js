@@ -2,7 +2,7 @@
 (function(root){ const UI=root.SE.UI, $=s=>document.querySelector(s), esc=UI.esc||(t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])));
 const L=SE.L, CAL=SE.CAL;
 const NAVS=[['office','校長辦公室'],['more','校務管理'],['finance','財務中心'],['admit','招生入學'],['academics','教務課程'],['staff','教職員'],['students','學生名冊'],['rel','人物關係'],['build','校園建設'],['campus','校園總覽']];
-const DOCK=[['build','建設'],['students','學生'],['staff','教師'],['academics','課表'],['events','事件'],['group','教育集團']];
+const DOCK=[['office','辦公室'],['build','建設'],['students','學生'],['staff','教師'],['academics','課表'],['events','事件'],['group','教育集團']];
 UI.stageOn=true;
 const IC={office:'rep',more:'event',finance:'fund',admit:'exam',academics:'course',staff:'teacher',students:'student',rel:'club',build:'build',campus:'upgrade',events:'mail',group:'achieve',coin:'fund',people:'student',star:'rep',shield:'exam'};
 const si=(k,w)=>`<img class="sgi" src="assets/icons/${IC[k]||'help'}.png" width="${w}" height="${w}" alt="">`;
@@ -18,7 +18,7 @@ UI.render=function(){ if(!UI.stageMode()){ document.body.classList.remove('stage
   const dock=DOCK.map(([k,n])=>`<a data-act="go" data-k="${k}">${si(k,30)}<span>${n}</span>${k==='events'&&pc?`<em class="bd">${pc}</em>`:''}</a>`).join('');
   const app=$('#app');
   app.innerHTML=`<div class="stage">${UI.mapHTML('view',{tall:1})}
-  <nav class="sg-nav ${(UI.navHide===undefined?(UI.navHide=!!(SE.rot&&SE.rot.on)):UI.navHide)?'hide':''}" id="sgnav"><div class="sg-brand">${UI.ic('crest',26)}<b>School Empire</b></div>${nav}</nav>
+  <nav class="sg-nav ${(UI.navHide===undefined?(UI.navHide=true):UI.navHide)?'hide':''}" id="sgnav"><div class="sg-brand">${UI.ic('crest',26)}<b>School Empire</b></div>${nav}</nav>
   <button class="sg-tog" data-act="sgNav" aria-label="導覽">${si('gear',24)}</button>
   ${stat(g,s)}
   <div class="sg-side"><button data-act="sgFloor">樓層</button><button data-act="xray">透視</button><button data-act="sgHide" aria-label="隱藏介面">👁</button><button data-act="sgZoom" aria-label="介面大小">Aa</button></div>

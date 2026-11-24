@@ -8,10 +8,10 @@ M.season=g=>{ const m=CAL.monthOf(g.w); return m>=3&&m<=5?'spring':m>=6&&m<=8?'s
 M.prosperity=s=>{ const bl=s.bld.filter(b=>!b.prog); if(!bl.length) return 40; const dur=bl.reduce((a,b)=>a+b.dur,0)/bl.length, lv=bl.reduce((a,b)=>a+b.lv,0)/bl.length; return clamp(dur*.7+lv*10+(s.rank&&s.rank.n?(1-(s.rank.r-1)/Math.max(1,s.rank.n-1))*10:0),0,100); };
 function occ(s){ const o=new Set(); for(const b of s.bld){ const d=D.BLD[b.t]; for(let i=0;i<d.w;i++) for(let j=0;j<d.h;j++) o.add((b.x+i)+','+(b.y+j)); } return o; }
 // 靜態場景（建築、樹、裝飾）；只在內容改變時重建
-function scene(g,s){ const season=M.season(g), pros=M.prosperity(s), stage=ART.eraStage(g.y); const sig=[s.id,M.xray||0,g.y,season,Math.round(pros/10),s.land.w,s.land.h,s.bld.map(b=>[b.id,b.t,b.lv,b.x,b.y,b.dur<25?2:b.dur<45?1:0,b.prog>0?Math.min(5,b.prog):0].join('.')).join('|')].join('#');
+function scene(g,s){ const season=M.season(g), pros=M.prosperity(s), stage=ART.eraStage(g.y); const sig=[s.id,M.xray||0,M.xrayAll?1:0,g.y,season,Math.round(pros/10),s.land.w,s.land.h,s.bld.map(b=>[b.id,b.t,b.lv,b.x,b.y,b.dur<25?2:b.dur<45?1:0,b.prog>0?Math.min(5,b.prog):0].join('.')).join('|')].join('#');
   if(M._sc&&M._sc.sig===sig) return M._sc; const o=occ(s); const lw=s.land.w,lh=s.land.h; const dec=SE.CS.decor(s,pros); const road=dec.road; const gx=dec.gx;
   const gd=ART.ground(s,{pros,season,road,gx,occ:o}); const list=[];
-  for(const b of s.bld){ const d=D.BLD[b.t]; const sp=ART.buildingSprite(b,d,{stage,season,cut:M.xray===b.id}); list.push({k:'b',id:b.id,b,x0:b.x,y0:b.y,x1:b.x+d.w,y1:b.y+d.h,sp}); }
+  for(const b of s.bld){ const d=D.BLD[b.t]; const sp=ART.buildingSprite(b,d,{stage,season,cut:M.xray===b.id||(M.xrayAll&&['classroom','lab','library','dorm','canteen','clinic','workshop','research'].includes(b.t))}); list.push({k:'b',id:b.id,b,x0:b.x,y0:b.y,x1:b.x+d.w,y1:b.y+d.h,sp}); }
   const used=new Set(o); for(const k of road) used.add(k);
   for(const [x,y,kind,v] of dec.trees){ used.add(x+','+y); list.push({k:'d',ctr:1,x0:x,y0:y,x1:x+1,y1:y+1,sp:ART.treeSprite(kind,season,v,pros<18)}); }
   for(const [x,y] of dec.benches){ used.add(x+','+y); list.push({k:'d',x0:x,y0:y,x1:x+1,y1:y+1,sp:ART.decorSprite('bench',season)}); }
@@ -32,7 +32,7 @@ function sortList(list){ const n=list.length,out=[],ind=new Array(n).fill(0),adj
   if(out.length<n){ const seen=new Set(out); for(const e of list) if(!seen.has(e)) out.push(e); } return out; }
 M.sortedList=sc=>{ const ex=M.extra?M.extra(sc):null; if(!ex||!ex.length){ if(!sc.sorted) sc.sorted=sortList(sc.list); return sc.sorted; } return sortList(sc.list.concat(ex)); };
 // ---------- 相機 ----------
-M.fit=(cv,s)=>{ const lw=s.land.w,lh=s.land.h; const w=(lw+lh)*HW,h=(lw+lh)*HH+80; const z=clamp(Math.min(cv.clientWidth/(w+80),cv.clientHeight/(h+40)),.35,1.6); M.cam={z,cx:0,cy:((lw+lh)*HH)/2-20}; };
+M.fit=(cv,s)=>{ const lw=s.land.w,lh=s.land.h; const w=(lw+lh)*HW,h=(lw+lh)*HH+80; const z=clamp(Math.min(cv.clientWidth/(w+80),cv.clientHeight/(h+40))*(UI.stageOn?1.45:1),.35,1.8); M.cam={z,cx:0,cy:((lw+lh)*HH)/2-20}; if(UI.stageOn&&s.bld&&s.bld.length){ let sx=0,sy=0; for(const b of s.bld){ const d=D.BLD[b.t]; const cxw=b.x+d.w/2,cyw=b.y+d.h/2; sx+=(cxw-cyw)*HW; sy+=(cxw+cyw)*HH; } M.cam.cx=sx/s.bld.length; M.cam.cy=sy/s.bld.length; } };
 const w2s=(cv,X,Y)=>[(X-M.cam.cx)*M.cam.z+cv.clientWidth/2,(Y-M.cam.cy)*M.cam.z+cv.clientHeight/2];
 const s2w=(cv,sx,sy)=>[(sx-cv.clientWidth/2)/M.cam.z+M.cam.cx,(sy-cv.clientHeight/2)/M.cam.z+M.cam.cy];
 M.w2s=w2s; M.s2w=s2w;

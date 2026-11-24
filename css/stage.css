@@ -45,3 +45,12 @@ body.rot .sg-stats{gap:7px}body.rot .sg-st i{display:none}body.rot .sg-dock a{wi
 body.rot .sg-brand{display:none}body.rot .sg-nav{padding:5px 4px;top:54px}body.rot .sg-nav a{padding:4px 6px;font-size:11px;gap:5px}body.rot .sg-nav a svg{width:15px;height:15px}body.rot .sg-date{display:none}body.rot .sg-top{padding:4px 9px;gap:8px;max-width:calc(100% - 410px)}body.rot .sg-name{font-size:13px}body.rot .stage .maphud{padding:4px 6px;gap:5px;font-size:11px}body.rot .stage .maphud .spd button{padding:3px 6px;margin-right:2px}body.rot .stage .mapctl{transform:translateY(-120%)}body.rot .stage .mapctl button{width:34px;height:34px}body.rot .sg-side{transform:translateY(25%)}body.rot .sg-side button{padding:5px 8px}body.rot .stage .maphud select{max-width:62px}
 /* 介面縮放（手機） */
 .stage .sg-nav,.stage .sg-tog,.stage .sg-top,.stage .sg-side,.stage .sg-dock,.stage .sg-map,.stage .sg-show,.stage .maphud,.stage .mapctl{zoom:var(--hz,1)}
+/* 顧問對話泡泡 */
+.sg-tip{position:absolute;left:calc(12px + env(safe-area-inset-left,0px));bottom:calc(86px + env(safe-area-inset-bottom,0px));max-width:min(46%,340px);display:flex;gap:8px;align-items:center;padding:8px 12px;border-radius:16px 16px 16px 4px;background:#fffaf0;border:2px solid #c9a14b;color:#4a3520;box-shadow:0 4px 10px rgba(60,40,20,.35);cursor:pointer;z-index:6;animation:tipb 2.4s ease-in-out infinite}
+.sg-tip i{font-style:normal;font-size:22px}.sg-tip div{display:flex;flex-direction:column;line-height:1.25}.sg-tip b{font-size:14px}.sg-tip span{font-size:11px;color:#7a6040}
+.sg-tip.urgent{border-color:#c0392b;background:#fff1ec}
+@keyframes tipb{50%{transform:translateY(-3px)}}
+body.sg-clean .sg-tip{display:none}
+.stage .sg-tip{zoom:var(--hz,1)}
+@media(max-height:430px){.sg-tip{bottom:76px;padding:5px 9px}.sg-tip span{display:none}}
+body.rot .sg-tip{bottom:76px;padding:5px 9px}body.rot .sg-tip span{display:none}
