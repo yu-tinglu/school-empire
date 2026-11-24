@@ -3469,6 +3469,28 @@
    "w": 128,
    "h": 89,
    "origin": "使用者提供 ChatGPT 剖面圖（透視用，現代版，套用所有年代）"
+  },
+  "cut:library:any": {
+   "src": "bld/cut_library.png",
+   "ox": 64.0,
+   "oy": 33,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 160,
+   "h": 115,
+   "origin": "使用者提供 ChatGPT 剖面圖（透視用，現代版，套用所有年代）"
+  },
+  "cut:dorm:any": {
+   "src": "bld/cut_dorm.png",
+   "ox": 64.0,
+   "oy": 33,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 160,
+   "h": 115,
+   "origin": "使用者提供 ChatGPT 剖面圖（透視用，現代版，套用所有年代）"
   }
  },
  "event_map": {
