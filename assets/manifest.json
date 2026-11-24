@@ -3381,6 +3381,72 @@
    "w": 173,
    "h": 129,
    "origin": "使用者提供 ChatGPT 建築圖（era4，Lv1）"
+  },
+  "bld:audit:1:4:0": {
+   "src": "bld/audit_e4.png",
+   "ox": 103.5,
+   "oy": 69,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 207,
+   "h": 169,
+   "origin": "使用者提供 ChatGPT 建築圖（era4，Lv1）"
+  },
+  "bld:clinic:1:4:0": {
+   "src": "bld/clinic_e4.png",
+   "ox": 36.0,
+   "oy": 11,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 104,
+   "h": 63,
+   "origin": "使用者提供 ChatGPT 建築圖（era4，Lv1）"
+  },
+  "bld:research:1:4:0": {
+   "src": "bld/research_e4.png",
+   "ox": 70.5,
+   "oy": 32,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 116,
+   "origin": "使用者提供 ChatGPT 建築圖（era4，Lv1）"
+  },
+  "bld:admin:1:4:0": {
+   "src": "bld/admin_e4.png",
+   "ox": 103.5,
+   "oy": 37,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 207,
+   "h": 137,
+   "origin": "使用者提供 ChatGPT 建築圖（era4，Lv1）"
+  },
+  "bld:parking:1:4:0": {
+   "src": "bld/parking_e4.png",
+   "ox": 70.5,
+   "oy": 24,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 108,
+   "origin": "使用者提供 ChatGPT 建築圖（era4，Lv1）"
+  },
+  "bld:landscape:1:4:0": {
+   "src": "bld/landscape_e4.png",
+   "ox": 69.0,
+   "oy": 26,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 138,
+   "h": 94,
+   "origin": "使用者提供 ChatGPT 建築圖（era4，Lv1）"
   }
  },
  "event_map": {
