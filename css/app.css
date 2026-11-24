@@ -56,3 +56,5 @@ html,body{background-color:var(--cream,#f4eddb)}
 @media(max-width:700px){.gcard{grid-template-columns:1fr}}
 body.rot .gcard{grid-template-columns:1fr 1fr}
 .gprem{font-weight:700;color:#7a4a1a;margin:0 0 6px;font-size:14px}
+.pt{position:fixed;top:48%;font-size:24px;z-index:9999;pointer-events:none;animation:ptf 1.9s ease-out forwards;opacity:0}
+@keyframes ptf{0%{opacity:0;transform:translate(0,20px) scale(.6)}20%{opacity:1}100%{opacity:0;transform:translate(var(--dx),-170px) scale(1.2) rotate(40deg)}}

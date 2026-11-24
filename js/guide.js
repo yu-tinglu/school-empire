@@ -46,7 +46,8 @@ G.diff=(a,b,wk)=>{ if(!a||!b||a.sid!==b.sid) return null; const m=SE.UI.$m||(x=>
   const row=(l,d,fmt,inv)=>d===0?'':`<div class="rr ${(d>0)!==!!inv?'up':'dn'}"><span>${l}</span><b>${d>0?'▲ +':'▼ '}${fmt(d)}</b></div>`;
   const items=[row('現金',dc,x=>m(x)),row('學生',b.n-a.n,x=>x),row('教職員',b.t-a.t,x=>x),row('聲望',+(b.r-a.r).toFixed(1),x=>x)].filter(Boolean);
   return {items,float:[dc?[(dc>0?'+':'')+m(dc),dc>0]:null,b.n-a.n?[(b.n>a.n?'+':'')+(b.n-a.n)+' 學生',b.n>a.n]:null,Math.abs(b.r-a.r)>=.5?[(b.r>a.r?'+':'')+(b.r-a.r).toFixed(1)+' 聲望',b.r>a.r]:null].filter(Boolean)}; };
-G.floatUp=(arr)=>{ arr.forEach(([t,up],i)=>{ const e=document.createElement('div'); e.className='fl '+(up?'up':'dn'); e.textContent=t; e.style.animationDelay=(i*.25)+'s'; document.body.appendChild(e); setTimeout(()=>e.remove(),2600); }); };
+G.burst=(ic,n)=>{ for(let i=0;i<n;i++){ const e=document.createElement('div'); e.className='pt'; e.textContent=ic; e.style.left=(38+Math.random()*24)+'%'; e.style.setProperty('--dx',(Math.random()*160-80)+'px'); e.style.animationDelay=(Math.random()*.5)+'s'; document.body.appendChild(e); setTimeout(()=>e.remove(),2400); } };
+G.floatUp=(arr)=>{ arr.forEach(([t,up])=>{ const ic=/聲望/.test(t)?'⭐':/學生/.test(t)?'🎒':up?'🪙':'💸'; if(!/學生/.test(t)||up) G.burst(ic,up?7:4); }); arr.forEach(([t,up],i)=>{ const e=document.createElement('div'); e.className='fl '+(up?'up':'dn'); e.textContent=t; e.style.animationDelay=(i*.25)+'s'; document.body.appendChild(e); setTimeout(()=>e.remove(),2600); }); };
 const adv0=UI.advance;
 UI.advance=async function(weeks,opt){ const g0=UI.g; if(!g0||UI.busy) return adv0.apply(this,arguments); const a=G.snap(g0,UI.cur&&UI.cur()); const lab=SE.CAL.label(g0.y,g0.w);
   const r=await adv0.apply(this,arguments); try{ const g=UI.g,b=G.snap(g,UI.cur&&UI.cur()); const d=G.diff(a,b,weeks);
