@@ -3,7 +3,7 @@
 // 替換方式：把正式圖放進 assets/ 同名路徑（或改 manifest 的 src），並把 status 改成 "final"。不需要改程式。
 (function(root){
 'use strict';
-const SE=root.SE, ART=SE.ART||(SE.ART={}); const A=SE.ASSETS={useBuildings:false,man:null,img:new Map(),base:'assets/'};
+const SE=root.SE, ART=SE.ART||(SE.ART={}); const A=SE.ASSETS={useBuildings:true,man:null,img:new Map(),base:'assets/'};
 const hs=(a,b,c)=>{ let h=(a*374761393+b*668265263+(c|0)*2147483647)|0; h=(h^(h>>>13))*1274126177|0; return ((h^(h>>>16))>>>0)/4294967296; };
 let tm=0; A.changed=()=>{ clearTimeout(tm); tm=setTimeout(()=>{ if(ART._bc) ART._bc.clear(); if(ART._cs) ART._cs.clear(); const M=SE.UI&&SE.UI.map; if(M){ M._sc=null; M.need&&M.need(); } if(A.onChange) A.onChange(); },80); };
 A.init=()=>fetch(A.base+'manifest.json?v='+(SE.APPVER||''),{cache:'no-cache'}).then(r=>r.ok?r.json():null).then(m=>{ if(m){ A.man=m; A.changed(); } }).catch(()=>{});
