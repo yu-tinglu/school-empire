@@ -2743,6 +2743,72 @@
    "w": 138,
    "h": 89,
    "origin": "使用者提供 ChatGPT 建築總覽圖（2005–2035，Lv1，套用所有年代）"
+  },
+  "bld:admin:1:0:0": {
+   "src": "bld/admin_e0.png",
+   "ox": 103.5,
+   "oy": 59,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 207,
+   "h": 159,
+   "origin": "使用者提供 ChatGPT 建築圖（1930 前，Lv1）"
+  },
+  "bld:library:1:0:0": {
+   "src": "bld/library_e0.png",
+   "ox": 70.5,
+   "oy": 30,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 114,
+   "origin": "使用者提供 ChatGPT 建築圖（1930 前，Lv1）"
+  },
+  "bld:office:1:0:0": {
+   "src": "bld/office_e0.png",
+   "ox": 69.0,
+   "oy": 59,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 138,
+   "h": 127,
+   "origin": "使用者提供 ChatGPT 建築圖（1930 前，Lv1）"
+  },
+  "bld:dorm:1:0:0": {
+   "src": "bld/dorm_e0.png",
+   "ox": 70.5,
+   "oy": 49,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 133,
+   "origin": "使用者提供 ChatGPT 建築圖（1930 前，Lv1）"
+  },
+  "bld:gym:1:0:0": {
+   "src": "bld/gym_e0.png",
+   "ox": 103.5,
+   "oy": 31,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 207,
+   "h": 131,
+   "origin": "使用者提供 ChatGPT 建築圖（1930 前，Lv1）"
+  },
+  "bld:classroom:1:0:0": {
+   "src": "bld/classroom_e0.png",
+   "ox": 70.5,
+   "oy": 26,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 173,
+   "h": 110,
+   "origin": "使用者提供 ChatGPT 建築圖（1930 前，Lv1）"
   }
  },
  "event_map": {
