@@ -3711,6 +3711,94 @@
    "w": 160,
    "h": 118,
    "origin": "使用者提供 ChatGPT 剖面圖（透視用，現代版，套用所有年代）"
+  },
+  "cut:classroom:2": {
+   "src": "bld/cut_classroom_e2.png",
+   "ox": 64.0,
+   "oy": 44,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 160,
+   "h": 126,
+   "origin": "使用者提供 ChatGPT 剖面圖（透視用，現代版，套用所有年代）"
+  },
+  "cut:lab:2": {
+   "src": "bld/cut_lab_e2.png",
+   "ox": 64.0,
+   "oy": 35,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 128,
+   "h": 101,
+   "origin": "使用者提供 ChatGPT 剖面圖（透視用，現代版，套用所有年代）"
+  },
+  "cut:library:2": {
+   "src": "bld/cut_library_e2.png",
+   "ox": 64.0,
+   "oy": 44,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 160,
+   "h": 126,
+   "origin": "使用者提供 ChatGPT 剖面圖（透視用，現代版，套用所有年代）"
+  },
+  "cut:dorm:2": {
+   "src": "bld/cut_dorm_e2.png",
+   "ox": 64.0,
+   "oy": 44,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 160,
+   "h": 126,
+   "origin": "使用者提供 ChatGPT 剖面圖（透視用，現代版，套用所有年代）"
+  },
+  "cut:canteen:2": {
+   "src": "bld/cut_canteen_e2.png",
+   "ox": 64.0,
+   "oy": 44,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 160,
+   "h": 126,
+   "origin": "使用者提供 ChatGPT 剖面圖（透視用，現代版，套用所有年代）"
+  },
+  "cut:clinic:2": {
+   "src": "bld/cut_clinic_e2.png",
+   "ox": 32.0,
+   "oy": 26,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 96,
+   "h": 76,
+   "origin": "使用者提供 ChatGPT 剖面圖（透視用，現代版，套用所有年代）"
+  },
+  "cut:workshop:2": {
+   "src": "bld/cut_workshop_e2.png",
+   "ox": 64.0,
+   "oy": 44,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 160,
+   "h": 126,
+   "origin": "使用者提供 ChatGPT 剖面圖（透視用，現代版，套用所有年代）"
+  },
+  "cut:research:2": {
+   "src": "bld/cut_research_e2.png",
+   "ox": 64.0,
+   "oy": 44,
+   "k": 1,
+   "cat": "building",
+   "status": "final",
+   "w": 160,
+   "h": 126,
+   "origin": "使用者提供 ChatGPT 剖面圖（透視用，現代版，套用所有年代）"
   }
  },
  "event_map": {
